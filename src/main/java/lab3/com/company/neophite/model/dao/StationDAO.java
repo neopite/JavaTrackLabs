@@ -8,4 +8,5 @@ public abstract class StationDAO extends AbstractDAO<Station,Long> {
         super(pool, table);
     }
     public abstract Station findStationByName(String name);
+    public abstract Station updateStation(Long id , String newValue);
 }

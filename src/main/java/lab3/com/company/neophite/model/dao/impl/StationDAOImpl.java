@@ -17,6 +17,7 @@ public class StationDAOImpl extends StationDAO {
     private final String FIND_STATION_BY_NAME = "select * from " + this.getTable() + " where name=?";
     private final String FIND_STATION_BY_ID = "select * from " + this.getTable() + " where id=?";
     private final String DELETE_STATION_BY_ID = "delete from " + this.getTable() + " where id=?";
+    private final String UPDATE_STATION_BY_ID = "update " + this.getTable() + " set name=? where id=?";
     private final String GET_ALL_STATION = "select * from " + this.getTable();
 
     public StationDAOImpl(ConnectionPoll pool, String table) {
@@ -35,6 +36,18 @@ public class StationDAOImpl extends StationDAO {
             throwables.printStackTrace();
         }
         return station;
+    }
+
+    @Override
+    public Station updateStation(Long id, String newValue) {
+        try(PreparedStatement preparedStatement = getStatement(UPDATE_STATION_BY_ID)){
+            preparedStatement.setString(1,newValue);
+            preparedStatement.setLong(2,id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return new Station(id,newValue);
     }
 
     public Station create(Station station) {
