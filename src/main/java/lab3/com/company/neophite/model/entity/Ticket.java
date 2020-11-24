@@ -2,17 +2,17 @@ package lab3.com.company.neophite.model.entity;
 
 public class Ticket {
     private long id;
-    private Train train;
-    private TrainRoute trainRoute;
+    private long userId;
+    private long trainTripId;
     private int place;
     private int vagon;
 
     public Ticket() {
     }
 
-    public Ticket(Train train, TrainRoute trainRoute, int place, int vagon) {
-        this.train = train;
-        this.trainRoute = trainRoute;
+    public Ticket(long userId, long trainTripId, int place, int vagon) {
+        this.userId = userId;
+        this.trainTripId = trainTripId;
         this.place = place;
         this.vagon = vagon;
     }
@@ -25,20 +25,20 @@ public class Ticket {
         this.id = id;
     }
 
-    public Train getTrain() {
-        return train;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setTrain(Train train) {
-        this.train = train;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public TrainRoute getTrainRoute() {
-        return trainRoute;
+    public long getTrainTripId() {
+        return trainTripId;
     }
 
-    public void setTrainRoute(TrainRoute trainRoute) {
-        this.trainRoute = trainRoute;
+    public void setTrainTripId(long trainTripId) {
+        this.trainTripId = trainTripId;
     }
 
     public int getPlace() {

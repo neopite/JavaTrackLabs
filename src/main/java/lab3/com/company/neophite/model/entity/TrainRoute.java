@@ -1,6 +1,7 @@
 package lab3.com.company.neophite.model.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class TrainRoute {
     private long id;
@@ -57,5 +58,16 @@ public class TrainRoute {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    @Override
+    public String toString() {
+        return "TrainRoute{" +
+                "id=" + id +
+                ", startStation=" + startStation +
+                ", finishStation=" + finishStation +
+                ", startDate=" + startDate +
+                ", finishDate=" + finishDate +
+                '}';
     }
 }

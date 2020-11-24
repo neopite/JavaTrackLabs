@@ -16,9 +16,9 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
 
     private final String CREATE = "insert into " + this.getTable() +
             " (station_start,start_date,station_end,end_date) values(?,?,?,?)";
-    private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + this.getTable() + " where id_train_route='?'";
-    private final String FIND_BY_FIRST_STATION = "select * from " + this.getTable() + " where station_start='?'";
-    private final String FIND_BY_END_STATION= "select * from " + this.getTable() + " where station_end=?";
+    private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + this.getTable() + " where id_train_route=?";
+    private final String FIND_BY_FIRST_STATION = "select * from " + this.getTable() + " where station_start=?";
+    private final String FIND_BY_END_STATION = "select * from " + this.getTable() + " where station_end=?";
     private final String DELETE_ROUTE_BY_ID = "delete from " + this.getTable() + " where id_train_route=?";
     private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable();
 
@@ -28,11 +28,10 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
 
     public List<TrainRoute> getTrainRoutesByFirstStation(long name) {
         List<TrainRoute> listOfTraintRoutes = new ArrayList<TrainRoute>();
-        PreparedStatement preparedStatement = getStatement(FIND_BY_FIRST_STATION);
-        try {
-            preparedStatement.setLong(1,name);
+        try (PreparedStatement preparedStatement = getStatement(FIND_BY_FIRST_STATION)) {
+            preparedStatement.setLong(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 TrainRoute trainRoute = new TrainRoute(
                         resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
@@ -43,23 +42,16 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return listOfTraintRoutes;
     }
 
     public List<TrainRoute> getTrainRoutesBySecondStation(long name) {
         List<TrainRoute> listOfTraintRoutes = new ArrayList<TrainRoute>();
-        PreparedStatement preparedStatement = getStatement(FIND_BY_FIRST_STATION);
-        try {
-            preparedStatement.setLong(1,name);
+        try (PreparedStatement preparedStatement = getStatement(FIND_BY_END_STATION)) {
+            preparedStatement.setLong(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 TrainRoute trainRoute = new TrainRoute(
                         resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
@@ -70,44 +62,30 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return listOfTraintRoutes;
     }
 
 
     public TrainRoute create(TrainRoute trainRoute) {
-        PreparedStatement preparedStatement = getStatement(CREATE);
-        try {
-            preparedStatement.setLong(1,trainRoute.getStartStation());
+        try (PreparedStatement preparedStatement = getStatement(CREATE)) {
+            preparedStatement.setLong(1, trainRoute.getStartStation());
             preparedStatement.setDate(2, (Date) trainRoute.getStartDate());
-            preparedStatement.setLong(3,trainRoute.getFinishStation());
-            preparedStatement.setDate(4,(Date) trainRoute.getFinishDate());
+            preparedStatement.setLong(3, trainRoute.getFinishStation());
+            preparedStatement.setDate(4, (Date) trainRoute.getFinishDate());
             preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return trainRoute;
     }
 
     public TrainRoute findObjectByKeyValue(Long key) {
-        PreparedStatement preparedStatement = getStatement(FIND_BY_TRAIN_ROUTE_ID);
         TrainRoute trainRoute = null;
-        try {
-            preparedStatement.setLong(1,key);
+        try (PreparedStatement preparedStatement = getStatement(FIND_BY_TRAIN_ROUTE_ID)) {
+            preparedStatement.setLong(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 trainRoute = new TrainRoute(
                         resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
@@ -117,42 +95,28 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return trainRoute;
     }
 
     public boolean deleteByKey(Long key) {
-        PreparedStatement preparedStatement = getStatement(DELETE_ROUTE_BY_ID);
         boolean isExecuted = false;
-        try {
-            preparedStatement.setLong(1,key);
+        try(        PreparedStatement preparedStatement = getStatement(DELETE_ROUTE_BY_ID)) {
+            preparedStatement.setLong(1, key);
             isExecuted = preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return isExecuted;
     }
 
     public List<TrainRoute> getAll() {
         List<TrainRoute> listOTraintRoutes = new ArrayList<TrainRoute>();
-        PreparedStatement preparedStatement = getStatement(GET_ALL_TRAIN_ROUTES);
-        try {
+        try(        PreparedStatement preparedStatement = getStatement(GET_ALL_TRAIN_ROUTES)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 TrainRoute trainRoute = new TrainRoute(
-                  resultSet.getLong("station_start"),
+                        resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
                         resultSet.getDate("start_date"),
                         resultSet.getDate("end_date")
@@ -161,12 +125,6 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return listOTraintRoutes;
     }

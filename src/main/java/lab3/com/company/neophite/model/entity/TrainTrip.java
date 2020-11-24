@@ -2,18 +2,26 @@ package lab3.com.company.neophite.model.entity;
 
 public class TrainTrip {
     private long id;
-    private TrainRoute route;
+    private long trainRouteId;
+    private long trainId;
     private float price;
-    private Train train;
     private int availableSeats;
 
     public TrainTrip() {
     }
 
-    public TrainTrip(TrainRoute route, float price, Train train, int availableSeats) {
-        this.route = route;
+    public TrainTrip(long id, long trainRouteId, long trainId, float price, int availableSeats) {
+        this.id = id;
+        this.trainRouteId = trainRouteId;
+        this.trainId = trainId;
         this.price = price;
-        this.train = train;
+        this.availableSeats = availableSeats;
+    }
+
+    public TrainTrip(long trainRouteId, long trainId, float price, int availableSeats) {
+        this.trainRouteId = trainRouteId;
+        this.trainId = trainId;
+        this.price = price;
         this.availableSeats = availableSeats;
     }
 
@@ -25,12 +33,20 @@ public class TrainTrip {
         this.id = id;
     }
 
-    public TrainRoute getRoute() {
-        return route;
+    public long getTrainRouteId() {
+        return trainRouteId;
     }
 
-    public void setRoute(TrainRoute route) {
-        this.route = route;
+    public void setTrainRouteId(long trainRouteId) {
+        this.trainRouteId = trainRouteId;
+    }
+
+    public long getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(long trainId) {
+        this.trainId = trainId;
     }
 
     public float getPrice() {
@@ -39,14 +55,6 @@ public class TrainTrip {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public Train getTrain() {
-        return train;
-    }
-
-    public void setTrain(Train train) {
-        this.train = train;
     }
 
     public int getAvailableSeats() {

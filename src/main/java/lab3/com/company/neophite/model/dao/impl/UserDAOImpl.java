@@ -27,9 +27,8 @@ public class UserDAOImpl extends UserDAO {
     }
 
     public User findUserByUsername(String username) {
-        PreparedStatement preparedStatement = getStatement(FIND_USER_BY_USERNAME);
         User findedUser = null;
-        try {
+        try(PreparedStatement preparedStatement = getStatement(FIND_USER_BY_USERNAME)) {
             preparedStatement.setString(1, username);
             ResultSet res = preparedStatement.executeQuery();
             while (res.next()) {
@@ -44,12 +43,6 @@ public class UserDAOImpl extends UserDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return findedUser;
 
@@ -57,8 +50,7 @@ public class UserDAOImpl extends UserDAO {
 
     @Override
     public User create(User user) {
-        PreparedStatement preparedStatement = getStatement(CREATE_QUERY);
-        try {
+        try(PreparedStatement preparedStatement = getStatement(CREATE_QUERY)) {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPasswd());
             preparedStatement.setString(3, user.getName());
@@ -67,21 +59,14 @@ public class UserDAOImpl extends UserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return user;
     }
 
     @Override
     public User findObjectByKeyValue(Long key) {
-        PreparedStatement preparedStatement = getStatement(FIND_USER_BY_ID);
         User user = null;
-        try {
+        try(PreparedStatement preparedStatement = getStatement(FIND_USER_BY_ID)) {
             preparedStatement.setLong(1, key);
             ResultSet res = preparedStatement.executeQuery();
             user = new User(
@@ -94,21 +79,14 @@ public class UserDAOImpl extends UserDAO {
             );
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return user;
     }
 
     @Override
     public boolean deleteByKey(Long key) {
-        PreparedStatement preparedStatement = getStatement(DELETE_USER_BY_ID);
         int deletedRows = 0;
-        try {
+        try(PreparedStatement preparedStatement = getStatement(DELETE_USER_BY_ID)) {
             preparedStatement.setLong(1, key);
             deletedRows = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -120,10 +98,9 @@ public class UserDAOImpl extends UserDAO {
 
     @Override
     public List<User> getAll() {
-        PreparedStatement preparedStatement = getStatement(GET_ALL_USERS);
         List<User> listOfUsers = new ArrayList<User>();
         ResultSet res = null;
-        try {
+        try(PreparedStatement preparedStatement = getStatement(GET_ALL_USERS)){
             res = preparedStatement.executeQuery();
             while (res.next()) {
                 User user = new User(
@@ -138,12 +115,6 @@ public class UserDAOImpl extends UserDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return listOfUsers;
     }
