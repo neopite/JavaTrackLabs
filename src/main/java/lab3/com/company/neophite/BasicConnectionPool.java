@@ -25,11 +25,15 @@ public class BasicConnectionPool implements ConnectionPoll {
 
     public static BasicConnectionPool create(
             String url, String user,
-            String password) throws SQLException {
+            String password) {
 
         List<Connection> pool = new ArrayList(INITIAL_POOL_SIZE);
         for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
-            pool.add(createConnection(url, user, password));
+            try {
+                pool.add(createConnection(url, user, password));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return new BasicConnectionPool(url, user, password, pool);
     }

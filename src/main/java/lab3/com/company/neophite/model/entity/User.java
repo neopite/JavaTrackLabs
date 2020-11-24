@@ -12,6 +12,23 @@ public class User {
 
     }
 
+    public User(String username, String passwd, String name, int age, String email) {
+        this.username = username;
+        this.passwd = passwd;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
+
+    public User(long id, String username, String passwd, String name, int age, String email) {
+        this.id = id;
+        this.username = username;
+        this.passwd = passwd;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
+
     public long getId() {
         return id;
     }
@@ -58,5 +75,17 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", passwd='" + passwd + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

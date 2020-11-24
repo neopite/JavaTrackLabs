@@ -1,8 +1,5 @@
 package lab3.com.company.neophite.model.entity;
 
-import javax.sql.ConnectionPoolDataSource;
-import java.sql.Connection;
-
 public class Station {
     private long id;
     private String name;
@@ -11,6 +8,11 @@ public class Station {
     }
 
     public Station( String name) {
+        this.name = name;
+    }
+
+    public Station(long id, String name) {
+        this.id = id;
         this.name = name;
     }
 

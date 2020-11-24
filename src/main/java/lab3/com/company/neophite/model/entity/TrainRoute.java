@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class TrainRoute {
     private long id;
-    private Station startStation;
-    private Station finishStation;
+    private long startStation;
+    private long finishStation;
     private Date startDate;
     private Date finishDate;
 
     public TrainRoute() {
     }
 
-    public TrainRoute(Station startStation, Station finishStation, Date startDate, Date finishDate) {
+    public TrainRoute(long startStation, long finishStation, Date startDate, Date finishDate) {
         this.startStation = startStation;
         this.finishStation = finishStation;
         this.startDate = startDate;
@@ -27,19 +27,19 @@ public class TrainRoute {
         this.id = id;
     }
 
-    public Station getStartStation() {
+    public long getStartStation() {
         return startStation;
     }
 
-    public void setStartStation(Station startStation) {
+    public void setStartStation(long startStation) {
         this.startStation = startStation;
     }
 
-    public Station getFinishStation() {
+    public long getFinishStation() {
         return finishStation;
     }
 
-    public void setFinishStation(Station finishStation) {
+    public void setFinishStation(long finishStation) {
         this.finishStation = finishStation;
     }
 
