@@ -14,7 +14,7 @@ public class StationDAOImpl extends StationDAO {
 
     private final String CREATE = "insert into " + this.getTable() +
             " (name) values(?)";
-    private final String FIND_STATION_BY_NAME = "select * from " + this.getTable() + " where name='?'";
+    private final String FIND_STATION_BY_NAME = "select * from " + this.getTable() + " where name=?";
     private final String FIND_STATION_BY_ID = "select * from " + this.getTable() + " where id=?";
     private final String DELETE_STATION_BY_ID = "delete from " + this.getTable() + " where id=?";
     private final String GET_ALL_STATION = "select * from " + this.getTable();

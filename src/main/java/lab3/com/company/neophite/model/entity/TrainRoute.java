@@ -20,6 +20,14 @@ public class TrainRoute {
         this.finishDate = finishDate;
     }
 
+    public TrainRoute(long id, long startStation, long finishStation, Date startDate, Date finishDate) {
+        this.id = id;
+        this.startStation = startStation;
+        this.finishStation = finishStation;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
+    }
+
     public long getId() {
         return id;
     }

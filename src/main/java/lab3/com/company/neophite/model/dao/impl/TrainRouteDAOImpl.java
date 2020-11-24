@@ -2,7 +2,6 @@ package lab3.com.company.neophite.model.dao.impl;
 
 import lab3.com.company.neophite.ConnectionPoll;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
-import lab3.com.company.neophite.model.dao.TrainTripDAO;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 
 import java.sql.Date;
@@ -19,6 +18,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + this.getTable() + " where id_train_route=?";
     private final String FIND_BY_FIRST_STATION = "select * from " + this.getTable() + " where station_start=?";
     private final String FIND_BY_END_STATION = "select * from " + this.getTable() + " where station_end=?";
+    private final String FIND_ROUTES_BETWEEN_TWO_STATION = "select * from " + this.getTable() + " where station_start=? and station_end=?";
     private final String DELETE_ROUTE_BY_ID = "delete from " + this.getTable() + " where id_train_route=?";
     private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable();
 
@@ -33,6 +33,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 TrainRoute trainRoute = new TrainRoute(
+                        resultSet.getLong("id_train_route"),
                         resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
                         resultSet.getDate("start_date"),
@@ -53,6 +54,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 TrainRoute trainRoute = new TrainRoute(
+                        resultSet.getLong("id_train_route"),
                         resultSet.getLong("station_start"),
                         resultSet.getLong("station_end"),
                         resultSet.getDate("start_date"),
@@ -64,6 +66,29 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             throwables.printStackTrace();
         }
         return listOfTraintRoutes;
+    }
+
+    @Override
+    public List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second) {
+        List<TrainRoute> listOfRoutes = new ArrayList<>();
+        try(PreparedStatement preparedStatement = getStatement(FIND_ROUTES_BETWEEN_TWO_STATION)){
+            preparedStatement.setLong(1,first);
+            preparedStatement.setLong(2,second);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                TrainRoute trainRoute = new TrainRoute(
+                        resultSet.getLong("id_train_route"),
+                        resultSet.getLong("station_start"),
+                        resultSet.getLong("station_end"),
+                        resultSet.getDate("start_date"),
+                        resultSet.getDate("end_date")
+                );
+                listOfRoutes.add(trainRoute);
+            }
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return listOfRoutes;
     }
 
 

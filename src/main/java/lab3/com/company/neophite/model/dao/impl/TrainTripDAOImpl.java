@@ -18,9 +18,35 @@ public class TrainTripDAOImpl extends TrainTripDAO {
     private final String FIND_TRAIN_TRIP_BY_ID = "select * from " + this.getTable() + " where id_train_trip=?";
     private final String DELETE_TRAIN_BY_ID = "delete from " + this.getTable() + " where id_train=?";
     private final String GET_ALL_TRAINS = "select * from " + this.getTable();
+    private final String FIND_TRAIN_TRIPS_BY_ROUTE = "select * from " + this.getTable() + " where train_route=?";
+
+
+
 
     public TrainTripDAOImpl(ConnectionPoll pool, String table) {
         super(pool, table);
+    }
+
+    @Override
+    public List<TrainTrip> findTrainTripsByRoute(long routeId) {
+        List<TrainTrip> trainTrips = new ArrayList<>();
+        try(PreparedStatement preparedStatement = getStatement(FIND_TRAIN_TRIPS_BY_ROUTE)){
+            preparedStatement.setLong(1,routeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                TrainTrip trainTrip = new TrainTrip(
+                        resultSet.getLong("id_train_trip"),
+                        resultSet.getLong("train"),
+                        resultSet.getLong("train_route"),
+                        resultSet.getFloat("price"),
+                        resultSet.getInt("available_seats")
+                );
+                trainTrips.add(trainTrip);
+            }
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return trainTrips;
     }
 
     @Override

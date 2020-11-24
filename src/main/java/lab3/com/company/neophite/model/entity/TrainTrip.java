@@ -64,4 +64,15 @@ public class TrainTrip {
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
     }
+
+    @Override
+    public String toString() {
+        return "TrainTrip{" +
+                "id=" + id +
+                ", trainRouteId=" + trainRouteId +
+                ", trainId=" + trainId +
+                ", price=" + price +
+                ", availableSeats=" + availableSeats +
+                '}';
+    }
 }
