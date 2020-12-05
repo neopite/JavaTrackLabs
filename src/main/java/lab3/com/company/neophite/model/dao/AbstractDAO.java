@@ -1,6 +1,6 @@
 package lab3.com.company.neophite.model.dao;
 
-import lab3.com.company.neophite.ConnectionPoll;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,18 +11,17 @@ import java.util.List;
 public abstract class AbstractDAO<T, PK> {
 
     private Connection connection;
-    private ConnectionPoll connectionPoll;
     private String table;
 
-    public AbstractDAO(ConnectionPoll pool, String table) {
-        this.connectionPoll = pool;
-        this.connection = pool.getConnection();
+    public AbstractDAO(Connection connection, String table) {
+        this.connection = connection;
         this.table = table;
     }
 
+
     public abstract T create(T t);
 
-    public abstract T findObjectByKeyValue(PK key);
+    public abstract T findByKey(PK key);
 
     public abstract boolean deleteByKey(PK key);
 
@@ -47,7 +46,7 @@ public abstract class AbstractDAO<T, PK> {
     public PreparedStatement getStatement(String query) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = this.connection.prepareStatement(query);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

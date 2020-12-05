@@ -1,4 +1,4 @@
-package lab3.com.company.neophite;
+package lab3.com.company.neophite.model.dao.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicConnectionPool implements ConnectionPoll {
+public class BasicConnectionPool implements ConnectionPool {
 
     private String url;
     private String user;
     private String password;
-    private List<Connection> connectionPool;
-    private List<Connection> usedConnections = new ArrayList();
+    private static BasicConnectionPool instance = null;  // lazy loading
+    private static List<Connection> connectionPool;
+    private static List<Connection> usedConnections = new ArrayList();
     private static int INITIAL_POOL_SIZE = 10;
 
 
@@ -23,19 +24,20 @@ public class BasicConnectionPool implements ConnectionPoll {
         this.connectionPool = newPool;
     }
 
-    public static BasicConnectionPool create(
-            String url, String user,
-            String password) {
-
-        List<Connection> pool = new ArrayList(INITIAL_POOL_SIZE);
-        for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
-            try {
-                pool.add(createConnection(url, user, password));
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+    public static BasicConnectionPool getInstance(String url, String user, String password) {
+        if (instance == null) {
+            List<Connection> pool = new ArrayList<Connection>(INITIAL_POOL_SIZE);
+            for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
+                try {
+                    pool.add(createConnection(url, user, password));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
+            instance =new BasicConnectionPool(url, user, password, pool);
+            return instance;
         }
-        return new BasicConnectionPool(url, user, password, pool);
+        return instance;
     }
 
     public Connection getConnection() {
@@ -66,5 +68,9 @@ public class BasicConnectionPool implements ConnectionPoll {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public List<Connection> getConnectionPool() {
+        return connectionPool;
     }
 }

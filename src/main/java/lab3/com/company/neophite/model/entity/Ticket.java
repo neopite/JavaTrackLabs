@@ -4,17 +4,22 @@ public class Ticket {
     private long id;
     private long userId;
     private long trainTripId;
-    private int place;
-    private int vagon;
+    private float price;
 
     public Ticket() {
     }
 
-    public Ticket(long userId, long trainTripId, int place, int vagon) {
+    public Ticket(long id, long userId, long trainTripId, float price) {
+        this.id = id;
         this.userId = userId;
         this.trainTripId = trainTripId;
-        this.place = place;
-        this.vagon = vagon;
+        this.price = price;
+    }
+
+    public Ticket(long userId, long trainTripId, float price) {
+        this.userId = userId;
+        this.trainTripId = trainTripId;
+        this.price = price;
     }
 
     public long getId() {
@@ -41,19 +46,11 @@ public class Ticket {
         this.trainTripId = trainTripId;
     }
 
-    public int getPlace() {
-        return place;
+    public float getPrice() {
+        return price;
     }
 
-    public void setPlace(int place) {
-        this.place = place;
-    }
-
-    public int getVagon() {
-        return vagon;
-    }
-
-    public void setVagon(int vagon) {
-        this.vagon = vagon;
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

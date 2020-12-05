@@ -1,10 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.ConnectionPoll;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
-import lab3.com.company.neophite.model.entity.Train;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,8 +23,8 @@ public class TrainTripDAOImpl extends TrainTripDAO {
 
 
 
-    public TrainTripDAOImpl(ConnectionPoll pool, String table) {
-        super(pool, table);
+    public TrainTripDAOImpl(Connection connection, String table) {
+        super(connection, table);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
     }
 
     @Override
-    public TrainTrip findObjectByKeyValue(Long key) {
+    public TrainTrip findByKey(Long key) {
         TrainTrip trainTrip = null;
        try(PreparedStatement preparedStatement = getStatement(FIND_TRAIN_TRIP_BY_ID)){
            preparedStatement.setLong(1,key);

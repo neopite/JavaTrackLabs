@@ -1,9 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.ConnectionPoll;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainDAO;
 import lab3.com.company.neophite.model.entity.Train;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +20,8 @@ public class TrainDAOImpl extends TrainDAO {
     private final String GET_ALL_TRAINS = "select * from " + this.getTable();
 
 
-    public TrainDAOImpl(ConnectionPoll pool, String table) {
-        super(pool, table);
+    public TrainDAOImpl(Connection connection, String table) {
+        super(connection, table);
     }
 
     public Train create(Train train) {
@@ -34,7 +35,7 @@ public class TrainDAOImpl extends TrainDAO {
         return train;
     }
 
-    public Train findObjectByKeyValue(Long key) {
+    public Train findByKey(Long key) {
         Train train = null;
         try (PreparedStatement preparedStatement = getStatement(FIND_TRAIN_BY_TRAIN_ID)) {
             preparedStatement.setLong(1, key);

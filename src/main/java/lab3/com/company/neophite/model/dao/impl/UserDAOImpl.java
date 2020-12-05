@@ -1,11 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.ConnectionPoll;
-import lab3.com.company.neophite.model.dao.AbstractDAO;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.UserDAO;
 import lab3.com.company.neophite.model.entity.User;
 
-import java.io.OptionalDataException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +21,8 @@ public class UserDAOImpl extends UserDAO {
     private final String GET_ALL_USERS = "select* from " + this.getTable();
 
 
-    public UserDAOImpl(ConnectionPoll pool, String table) {
-        super(pool, table);
+    public UserDAOImpl(Connection connection, String table) {
+        super(connection, table);
     }
 
     public User findUserByUsername(String username) {
@@ -64,7 +63,7 @@ public class UserDAOImpl extends UserDAO {
     }
 
     @Override
-    public User findObjectByKeyValue(Long key) {
+    public User findByKey(Long key) {
         User user = null;
         try(PreparedStatement preparedStatement = getStatement(FIND_USER_BY_ID)) {
             preparedStatement.setLong(1, key);

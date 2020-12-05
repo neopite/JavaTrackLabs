@@ -1,9 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.ConnectionPoll;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.entity.Station;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +21,8 @@ public class StationDAOImpl extends StationDAO {
     private final String UPDATE_STATION_BY_ID = "update " + this.getTable() + " set name=? where id=?";
     private final String GET_ALL_STATION = "select * from " + this.getTable();
 
-    public StationDAOImpl(ConnectionPoll pool, String table) {
-        super(pool, table);
+    public StationDAOImpl(Connection connection, String table) {
+        super(connection, table);
     }
 
     public Station findStationByName(String name) {
@@ -61,7 +62,7 @@ public class StationDAOImpl extends StationDAO {
         return executed ? station : null;
     }
 
-    public Station findObjectByKeyValue(Long key) {
+    public Station findByKey(Long key) {
         Station station = null;
         try (PreparedStatement preparedStatement = getStatement(FIND_STATION_BY_ID)) {
             preparedStatement.setLong(1, key);

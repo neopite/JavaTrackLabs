@@ -1,8 +1,8 @@
-package lab3.com.company.neophite;
+package lab3.com.company.neophite.model.dao.connection;
 
 import java.sql.Connection;
 
-public interface ConnectionPoll {
+public interface ConnectionPool {
     Connection getConnection();
     boolean shutdownConnection(Connection connection);
     String getUrl();

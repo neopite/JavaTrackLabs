@@ -1,13 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.ConnectionPoll;
+import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +19,8 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String DELETE_ROUTE_BY_ID = "delete from " + this.getTable() + " where id_train_route=?";
     private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable();
 
-    public TrainRouteDAOImpl(ConnectionPoll pool, String table) {
-        super(pool, table);
+    public TrainRouteDAOImpl(Connection connection, String table) {
+        super(connection, table);
     }
 
     public List<TrainRoute> getTrainRoutesByFirstStation(long name) {
@@ -105,7 +102,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
         return trainRoute;
     }
 
-    public TrainRoute findObjectByKeyValue(Long key) {
+    public TrainRoute findByKey(Long key) {
         TrainRoute trainRoute = null;
         try (PreparedStatement preparedStatement = getStatement(FIND_BY_TRAIN_ROUTE_ID)) {
             preparedStatement.setLong(1, key);

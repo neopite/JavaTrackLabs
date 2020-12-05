@@ -1,17 +1,16 @@
 package lab3.com.company.neophite.model.service;
 
-import lab3.com.company.neophite.BasicConnectionPool;
+import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
 import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
-import lab3.com.company.neophite.model.entity.Station;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 
-import java.lang.reflect.Array;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +20,14 @@ public class TrainTripService {
    private StationDAO stationDAO;
 
     public TrainTripService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.create(
+        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance(
                 "jdbc:postgresql://127.0.0.1:5432/railwaydb",
                 "postgres",
                 "4427"
         );
-        trainTripDAO = new TrainTripDAOImpl(basicConnectionPool,"train_trip");
-        trainRouteDAO = new TrainRouteDAOImpl(basicConnectionPool,"trains_route");
-        stationDAO = new StationDAOImpl(basicConnectionPool,"stations");
+        trainTripDAO = new TrainTripDAOImpl(basicConnectionPool.getConnection(),"train_trip");
+        trainRouteDAO = new TrainRouteDAOImpl(basicConnectionPool.getConnection(),"trains_route");
+        stationDAO = new StationDAOImpl(basicConnectionPool.getConnection(),"stations");
     }
 
     public List<TrainTrip> getTrainTripsBetweenTwoStations(String first, String second){
