@@ -4,17 +4,18 @@ import lab3.com.company.neophite.model.dao.TicketDAO;
 import lab3.com.company.neophite.model.entity.Ticket;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TicketDAOImpl extends TicketDAO {
 
     private final String CREATE = "insert into " + this.getTable() +
             " (train_trip,id_user,place) values(?,?,?)";
-    private final String FIND_STATION_BY_NAME = "select * from " + this.getTable() + " where name=?";
-    private final String FIND_STATION_BY_ID = "select * from " + this.getTable() + " where id=?";
-    private final String DELETE_STATION_BY_ID = "delete from " + this.getTable() + " where id=?";
-    private final String UPDATE_STATION_BY_ID = "update " + this.getTable() + " set name=? where id=?";
-    private final String GET_ALL_STATION = "select * from " + this.getTable();
+    private final String FIND_TICKET_BY_ID = "select * from " + this.getTable() + " where id_ticket=?";
+    private final String DELETE_TICKET_BY_ID = "delete from " + this.getTable() + " where id_ticket=?";
+
 
 
     public TicketDAOImpl(Connection connection, String table) {
@@ -23,17 +24,46 @@ public class TicketDAOImpl extends TicketDAO {
 
     @Override
     public Ticket create(Ticket ticket) {
-        return null;
+        try(PreparedStatement preparedStatement = getStatement(CREATE)){
+            preparedStatement.setLong(1,ticket.getTrainTripId());
+            preparedStatement.setLong(2,ticket.getUserId());
+            preparedStatement.setLong(3,ticket.getPlace());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return ticket;
     }
 
     @Override
     public Ticket findByKey(Long key) {
-        return null;
+        Ticket ticket = null;
+        try(PreparedStatement preparedStatement = getStatement(FIND_TICKET_BY_ID)) {
+            preparedStatement.setLong(1,key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                ticket = new Ticket(resultSet.getLong("id_ticket"),
+                                    resultSet.getLong("train_trip"),
+                                    resultSet.getLong("id_user"),
+                                    resultSet.getInt("place")
+                        );
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return ticket;
     }
 
     @Override
     public boolean deleteByKey(Long key) {
-        return false;
+        boolean isExecuted = false;
+        try(PreparedStatement preparedStatement = getStatement(DELETE_TICKET_BY_ID)){
+            preparedStatement.setLong(1,key);
+            isExecuted = preparedStatement.execute();
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return isExecuted;
     }
 
     @Override
