@@ -55,7 +55,8 @@ public class StationService {
                     throw new TrainTripNotFoundException("Train trip with id of route : " + trainRoute.getId() + " not found");
                 }
             }
-
+            transactionConnection.commit();
+            transactionConnection.setAutoCommit(true);
         } catch (SQLException | StationNotFoundException | TrainRouteNotFoundException | TrainTripNotFoundException exception ) {
             try {
                 transactionConnection.rollback();
