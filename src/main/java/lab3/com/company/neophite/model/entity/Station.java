@@ -3,6 +3,7 @@ package lab3.com.company.neophite.model.entity;
 public class Station {
     private long id;
     private String name;
+    private boolean isActive;
 
     public Station() {
     }
@@ -14,6 +15,14 @@ public class Station {
     public Station(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public long getId() {

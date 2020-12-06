@@ -11,4 +11,5 @@ public abstract class TrainTripDAO extends AbstractDAO<TrainTrip,Long> {
         super(connection, table);
     }
     public abstract List<TrainTrip> findTrainTripsByRoute(long routeId);
+    public abstract boolean deleteAllTrainTripsByRouteId(long routeId);
 }

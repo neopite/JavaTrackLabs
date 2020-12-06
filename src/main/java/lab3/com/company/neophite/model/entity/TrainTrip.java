@@ -6,6 +6,8 @@ public class TrainTrip {
     private long trainId;
     private float price;
     private int availableSeats;
+    private boolean isActive;
+
 
     public TrainTrip() {
     }
@@ -23,6 +25,14 @@ public class TrainTrip {
         this.trainId = trainId;
         this.price = price;
         this.availableSeats = availableSeats;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public long getId() {

@@ -9,6 +9,7 @@ public class TrainRoute {
     private long finishStation;
     private Date startDate;
     private Date finishDate;
+    private boolean isActive;
 
     public TrainRoute() {
     }
@@ -26,6 +27,15 @@ public class TrainRoute {
         this.finishStation = finishStation;
         this.startDate = startDate;
         this.finishDate = finishDate;
+    }
+
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public long getId() {

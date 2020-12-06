@@ -12,13 +12,14 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
 
     private final String CREATE = "insert into " + this.getTable() +
             " (station_start,start_date,station_end,end_date) values(?,?,?,?)";
-    private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + this.getTable() + " where id_train_route=?";
-    private final String FIND_BY_FIRST_STATION = "select * from " + this.getTable() + " where station_start=?";
-    private final String FIND_BY_END_STATION = "select * from " + this.getTable() + " where station_end=?";
-    private final String FIND_ROUTES_BETWEEN_TWO_STATION = "select * from " + this.getTable() + " where station_start=? and station_end=?";
-    private final String DELETE_ROUTE_BY_ID = "delete from " + this.getTable() + " where id_train_route=?";
+    private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + this.getTable() + " where id_train_route=? and isActive=true";
+    private final String FIND_BY_FIRST_STATION = "select * from " + this.getTable() + " where station_start=? and isActive=true";
+    private final String FIND_BY_END_STATION = "select * from " + this.getTable() + " where station_end=? and isActive=true";
+    private final String FIND_ROUTES_BETWEEN_TWO_STATION = "select * from " + this.getTable() + " where station_start=? and station_end=? and isActive=true";
+    private final String FIND_ALL_ROUTES_BY_STATION = "select * from " + this.getTable() +" where (station_start=? or station_end=?) and isActive=true";
+    private final String DELETE_ROUTE_BY_ID = "update from " + this.getTable() + "set isActive=false where id_train_route=?  ";
     private final String DELETE_ROUTES_BY_STATION_ID = "update " + this.getTable() + "set isActive=false where station_start=? or station_end=?";
-    private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable();
+    private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable() + " where isActive=true";
 
     public TrainRouteDAOImpl(Connection connection, String table) {
         super(connection, table);
@@ -99,6 +100,29 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             throwables.printStackTrace();
         }
         return isExecuted;
+    }
+
+    @Override
+    public List<TrainRoute> getAllRoutesByStation(long stationId) {
+        List<TrainRoute> listOfRoutes = new ArrayList<>();
+        try(PreparedStatement preparedStatement = getStatement(FIND_ALL_ROUTES_BY_STATION)){
+            preparedStatement.setLong(1 , stationId);
+            preparedStatement.setLong(2 , stationId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                TrainRoute trainRoute = new TrainRoute(
+                        resultSet.getLong("id_train_route"),
+                        resultSet.getLong("station_start"),
+                        resultSet.getLong("station_end"),
+                        resultSet.getDate("start_date"),
+                        resultSet.getDate("end_date")
+                );
+                listOfRoutes.add(trainRoute);
+            }
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return listOfRoutes;
     }
 
 
