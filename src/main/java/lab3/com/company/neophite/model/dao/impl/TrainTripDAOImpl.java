@@ -16,7 +16,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
     private final String CREATE = "insert into " + this.getTable() +
             " (train_route,price,train,available_seats) values(?,?)";
     private final String FIND_TRAIN_TRIP_BY_ID = "select * from " + this.getTable() + " where id_train_trip=?";
-    private final String DELETE_TRAIN_BY_ID = "delete from " + this.getTable() + " where id_train=?";
+    private final String DELETE_TRAIN_BY_ID = "update " + this.getTable() + "set isActive=false where id_train=?";
     private final String GET_ALL_TRAINS = "select * from " + this.getTable();
     private final String FIND_TRAIN_TRIPS_BY_ROUTE = "select * from " + this.getTable() + " where train_route=?";
 

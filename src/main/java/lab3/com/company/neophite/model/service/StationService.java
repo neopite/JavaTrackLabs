@@ -8,6 +8,7 @@ import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
 import lab3.com.company.neophite.model.entity.Station;
+import lab3.com.company.neophite.model.exception.StationNotFoundException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,8 +36,24 @@ public class StationService {
     public void deleteStation(long stationId) {
         try {
             transactionConnection.setAutoCommit(false);
+            Boolean station = stationDAO.deleteByKey(stationId);
+            if(!station){
+                throw new StationNotFoundException("Station with id" +stationId + " not found");
+            }
+            boolean trainRouteIstrue = trainRouteDAO.ву
+
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            try {
+                transactionConnection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }catch (StationNotFoundException stationNotFoundException){
+            try {
+                transactionConnection.rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
     }
 

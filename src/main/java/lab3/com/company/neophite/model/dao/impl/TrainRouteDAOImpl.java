@@ -17,6 +17,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String FIND_BY_END_STATION = "select * from " + this.getTable() + " where station_end=?";
     private final String FIND_ROUTES_BETWEEN_TWO_STATION = "select * from " + this.getTable() + " where station_start=? and station_end=?";
     private final String DELETE_ROUTE_BY_ID = "delete from " + this.getTable() + " where id_train_route=?";
+    private final String DELETE_ROUTES_BY_STATION_ID = "update " + this.getTable() + "set isActive=false where station_start=? or station_end=?";
     private final String GET_ALL_TRAIN_ROUTES = "select * from " + this.getTable();
 
     public TrainRouteDAOImpl(Connection connection, String table) {
@@ -86,6 +87,18 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             sqlException.printStackTrace();
         }
         return listOfRoutes;
+    }
+
+    @Override
+    public boolean deleteAllRoutesWithStationId(long stationId) {
+        boolean isExecuted = false;
+        try(PreparedStatement preparedStatement = getStatement(DELETE_ROUTES_BY_STATION_ID)) {
+            preparedStatement.setLong(1, stationId);
+            isExecuted = preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return isExecuted;
     }
 
 

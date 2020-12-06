@@ -13,4 +13,5 @@ public abstract class TrainRouteDAO extends AbstractDAO<TrainRoute , Long> {
     public abstract List<TrainRoute> getTrainRoutesByFirstStation(long name);
     public abstract List<TrainRoute> getTrainRoutesBySecondStation(long name);
     public abstract List<TrainRoute> getTrainRoutesBetweenTwoStations(long first,long second);
+    public abstract boolean deleteAllRoutesWithStationId(long stationId);
 }
