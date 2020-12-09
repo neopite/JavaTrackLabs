@@ -8,7 +8,6 @@ public class TrainTrip {
     private int availableSeats;
     private boolean isActive;
 
-
     public TrainTrip() {
     }
 

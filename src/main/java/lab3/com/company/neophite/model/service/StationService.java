@@ -63,14 +63,32 @@ public class StationService {
             } catch (SQLException throwables) {
                 exception.printStackTrace();
             }
+        }finally {
+            try {
+                this.transactionConnection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
     }
 
     public Station addStation(Station station) {
-        return stationDAO.create(station);
+        Station station1 = stationDAO.create(station);
+        try {
+            this.transactionConnection.close();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return station1;
     }
 
     public Station updateStation(long id, String newStationName) {
-        return stationDAO.updateStation(id, newStationName);
+        Station station =  stationDAO.updateStation(id, newStationName);
+        try {
+            this.transactionConnection.close();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return station;
     }
 }
