@@ -24,14 +24,11 @@ public class BasicConnectionPool implements ConnectionPool {
     private static int INITIAL_POOL_SIZE = 10;
 
 
-    private BasicConnectionPool(String url,String user,String password,List<Connection> newPool){
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.connectionPool = newPool;
+    private BasicConnectionPool(List<Connection> newPool){
+        connectionPool = newPool;
     }
 
-    public static BasicConnectionPool getInstance(String url, String user, String password) {
+    public static BasicConnectionPool getInstance() {
         if (instance == null) {
             List<Connection> pool = new ArrayList<Connection>(INITIAL_POOL_SIZE);
             dataSource = getDataSource();
@@ -44,7 +41,7 @@ public class BasicConnectionPool implements ConnectionPool {
                     throwables.printStackTrace();
                 }
             }
-            instance =new BasicConnectionPool(url, user, password, pool);
+            instance =new BasicConnectionPool(pool);
             return instance;
         }
         return instance;

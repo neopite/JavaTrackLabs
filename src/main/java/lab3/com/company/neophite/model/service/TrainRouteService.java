@@ -19,11 +19,7 @@ public class TrainRouteService {
     private final Connection transactionConnection;
 
     public TrainRouteService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance(
-                "jdbc:postgresql://127.0.0.1:5432/railwaydb",
-                "postgres",
-                "4427"
-        );
+        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
         this.transactionConnection = basicConnectionPool.getConnection();
         trainRouteDAO = new TrainRouteDAOImpl(transactionConnection, "trains_route");
         trainTripDAO = new TrainTripDAOImpl(transactionConnection, "train_trip");

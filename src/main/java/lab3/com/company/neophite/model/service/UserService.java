@@ -9,11 +9,7 @@ public class UserService {
     private UserDAO userDAO;
 
     public UserService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance(
-                "jdbc:postgresql://127.0.0.1:5432/railwaydb",
-                "postgres",
-                "4427"
-        );
+        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
         this.userDAO = new UserDAOImpl(basicConnectionPool.getConnection(),"users");
     }
 

@@ -20,11 +20,7 @@ public class TrainTripService {
    private StationDAO stationDAO;
 
     public TrainTripService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance(
-                "jdbc:postgresql://127.0.0.1:5432/railwaydb",
-                "postgres",
-                "4427"
-        );
+        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
         trainTripDAO = new TrainTripDAOImpl(basicConnectionPool.getConnection(),"train_trip");
         trainRouteDAO = new TrainRouteDAOImpl(basicConnectionPool.getConnection(),"trains_route");
         stationDAO = new StationDAOImpl(basicConnectionPool.getConnection(),"stations");
