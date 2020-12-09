@@ -1,22 +1,22 @@
 package lab3.com.company.neophite.model.dao.connection;
 
 public class DataSource {
-    private String usernname;
+    private String username;
     private String password;
     private String url;
 
     public DataSource(String username, String password, String url) {
-        this.usernname = username;
+        this.username = username;
         this.password = password;
         this.url = url;
     }
 
-    public String getUsernname() {
-        return usernname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsernname(String usernname) {
-        this.usernname = usernname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

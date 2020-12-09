@@ -8,14 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public abstract class AbstractDAO<T, PK> {
+public abstract class AbstractDAO<T, PK> implements AutoCloseable {
 
     private Connection connection;
-    private String table;
 
-    public AbstractDAO(Connection connection, String table) {
+    public AbstractDAO(Connection connection) {
         this.connection = connection;
-        this.table = table;
     }
 
 
@@ -57,12 +55,4 @@ public abstract class AbstractDAO<T, PK> {
         return connection;
     }
 
-
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
 }

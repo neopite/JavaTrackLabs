@@ -1,8 +1,10 @@
 package lab3.com.company.neophite.model.service;
 
+import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
 import lab3.com.company.neophite.model.entity.TrainRoute;
@@ -14,23 +16,24 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class TrainRouteService {
-    private TrainRouteDAO trainRouteDAO;
-    private TrainTripDAO trainTripDAO;
     private final Connection transactionConnection;
+    private DAOFactory daoFactory ;
 
     public TrainRouteService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
-        this.transactionConnection = basicConnectionPool.getConnection();
-        trainRouteDAO = new TrainRouteDAOImpl(transactionConnection, "trains_route");
-        trainTripDAO = new TrainTripDAOImpl(transactionConnection, "train_trip");
+        this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
+        this.daoFactory = new DAOFactoryImpl();
     }
 
     public TrainRoute addTrainRoute(TrainRoute trainRoute) {
-        return trainRouteDAO.create(trainRoute);
+        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO()) {
+            return trainRouteDAO.create(trainRoute);
+        }
     }
 
     public void deleteTrainRoute(long trainRoute) {
-        try {
+        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO() ;
+            TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO()
+        ) {
             transactionConnection.setAutoCommit(false);
 
             boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(trainRoute);

@@ -11,15 +11,16 @@ import java.util.List;
 
 public class TicketDAOImpl extends TicketDAO {
 
-    private final String CREATE = "insert into " + this.getTable() +
+    private final String table = "ticket";
+    private final String CREATE = "insert into " +table +
             " (train_trip,id_user,place) values(?,?,?)";
-    private final String FIND_TICKET_BY_ID = "select * from " + this.getTable() + " where id_ticket=?";
-    private final String DELETE_TICKET_BY_ID = "delete from " + this.getTable() + " where id_ticket=?";
+    private final String FIND_TICKET_BY_ID = "select * from " + table + " where id_ticket=?";
+    private final String DELETE_TICKET_BY_ID = "delete from " + table + " where id_ticket=?";
 
 
 
-    public TicketDAOImpl(Connection connection, String table) {
-        super(connection, table);
+    public TicketDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override

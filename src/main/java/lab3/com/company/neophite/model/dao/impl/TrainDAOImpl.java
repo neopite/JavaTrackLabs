@@ -1,6 +1,5 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainDAO;
 import lab3.com.company.neophite.model.entity.Train;
 
@@ -13,15 +12,16 @@ import java.util.List;
 
 public class TrainDAOImpl extends TrainDAO {
 
-    private final String CREATE = "insert into " + this.getTable() +
+    private final String table = "trains";
+    private final String CREATE = "insert into " +table +
             " (model,count_of_places) values(?,?)";
-    private final String FIND_TRAIN_BY_TRAIN_ID = "select * from " + this.getTable() + " where id_train=?";
-    private final String DELETE_TRAIN_BY_ID = "delete from " + this.getTable() + " where id_train=?";
-    private final String GET_ALL_TRAINS = "select * from " + this.getTable();
+    private final String FIND_TRAIN_BY_TRAIN_ID = "select * from " + table + " where id_train=?";
+    private final String DELETE_TRAIN_BY_ID = "delete from " + table + " where id_train=?";
+    private final String GET_ALL_TRAINS = "select * from " + table;
 
 
-    public TrainDAOImpl(Connection connection, String table) {
-        super(connection, table);
+    public TrainDAOImpl(Connection connection) {
+        super(connection);
     }
 
     public Train create(Train train) {

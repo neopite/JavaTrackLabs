@@ -1,9 +1,11 @@
 package lab3.com.company.neophite.model.service;
 
+import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
+import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
 import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
@@ -19,31 +21,29 @@ import java.util.List;
 
 public class StationService {
 
-    private StationDAO stationDAO;
-    private TrainRouteDAO trainRouteDAO;
-    private TrainTripDAO trainTripDAO;
+    private DAOFactory daoFactory;
     private Connection transactionConnection;
 
-    public StationService() {
-        BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
-        this.transactionConnection = basicConnectionPool.getConnection();
-        stationDAO = new StationDAOImpl(transactionConnection, "stations");
-        trainRouteDAO = new TrainRouteDAOImpl(transactionConnection, "trains_route");
-        trainTripDAO = new TrainTripDAOImpl(transactionConnection, "train_trip");
+    public StationService(DAOFactory daoFactory) {
+        this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
+        daoFactory = new DAOFactoryImpl();
     }
 
 
     public void deleteStation(long stationId) {
-        try {
+        try (StationDAO stationDAO = new StationDAOImpl(transactionConnection);
+             TrainRouteDAO trainRouteDAO = new TrainRouteDAOImpl(transactionConnection);
+             TrainTripDAO trainTripDAO = new TrainTripDAOImpl(transactionConnection)) {
+
             transactionConnection.setAutoCommit(false);
             boolean station = stationDAO.deleteByKey(stationId);
-            if(!station){
-                throw new StationNotFoundException("Station with id : " +stationId + " not found");
+            if (!station) {
+                throw new StationNotFoundException("Station with id : " + stationId + " not found");
             }
             List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
             boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(stationId);
-            if(!trainRouteIstrue){
-                throw new TrainRouteNotFoundException("Train Routes with station : " + stationId +"  not found");
+            if (!trainRouteIstrue) {
+                throw new TrainRouteNotFoundException("Train Routes with station : " + stationId + "  not found");
             }
             for (TrainRoute trainRoute : listOfRoutesByStation) {
                 boolean isDeleted = trainTripDAO.deleteAllTrainTripsByRouteId(trainRoute.getId());
@@ -53,37 +53,27 @@ public class StationService {
             }
             transactionConnection.commit();
             transactionConnection.setAutoCommit(true);
-        } catch (SQLException | StationNotFoundException | TrainRouteNotFoundException | TrainTripNotFoundException exception ) {
+        } catch (SQLException | StationNotFoundException | TrainRouteNotFoundException | TrainTripNotFoundException exception) {
             try {
                 transactionConnection.rollback();
             } catch (SQLException throwables) {
                 exception.printStackTrace();
             }
-        }finally {
-            try {
-                this.transactionConnection.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
         }
     }
 
     public Station addStation(Station station) {
-        Station station1 = stationDAO.create(station);
-        try {
-            this.transactionConnection.close();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        Station station1;
+        try (StationDAO stationDAO = daoFactory.createStationDAO()) {
+            station1 = stationDAO.create(station);
         }
         return station1;
     }
 
     public Station updateStation(long id, String newStationName) {
-        Station station =  stationDAO.updateStation(id, newStationName);
-        try {
-            this.transactionConnection.close();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        Station station;
+        try (StationDAO stationDAO = daoFactory.createStationDAO()) {
+            station = stationDAO.updateStation(id, newStationName);
         }
         return station;
     }

@@ -1,6 +1,5 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.UserDAO;
 import lab3.com.company.neophite.model.entity.User;
 
@@ -13,16 +12,17 @@ import java.util.List;
 
 public class UserDAOImpl extends UserDAO {
 
-    private final String CREATE_QUERY = "insert into " + this.getTable() +
+    private final String table = "users";
+    private final String CREATE_QUERY = "insert into " + table +
             " (username,password,name,age,email) values(?,?,?,?,?)";
-    private final String FIND_USER_BY_USERNAME = "select * from " + this.getTable() + " where username='?'";
-    private final String FIND_USER_BY_ID = "select * from " + this.getTable() + " where id=?";
-    private final String DELETE_USER_BY_ID = "delete from " + this.getTable() + " where id=?";
-    private final String GET_ALL_USERS = "select* from " + this.getTable();
+    private final String FIND_USER_BY_USERNAME = "select * from " + table + " where username='?'";
+    private final String FIND_USER_BY_ID = "select * from " +table+ " where id=?";
+    private final String DELETE_USER_BY_ID = "delete from " + table + " where id=?";
+    private final String GET_ALL_USERS = "select* from " + table;
 
 
-    public UserDAOImpl(Connection connection, String table) {
-        super(connection, table);
+    public UserDAOImpl(Connection connection) {
+        super(connection);
     }
 
     public User findUserByUsername(String username) {

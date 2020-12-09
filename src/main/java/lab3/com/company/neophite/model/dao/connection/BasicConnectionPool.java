@@ -16,7 +16,7 @@ public class BasicConnectionPool implements ConnectionPool {
     private String user;
     private String password;
     private static final String DB_PROPERTIES =
-            "resources/database.properties";
+            "C:\\Users\\Stami\\IdeaProjects\\Java-Lab01\\src\\main\\resources\\database.properties";
     private static DataSource dataSource;
     private static BasicConnectionPool instance = null;  // lazy loading
     private static List<Connection> connectionPool;
@@ -28,14 +28,19 @@ public class BasicConnectionPool implements ConnectionPool {
         connectionPool = newPool;
     }
 
+    public BasicConnectionPool(){
+
+    }
+
     public static BasicConnectionPool getInstance() {
         if (instance == null) {
             List<Connection> pool = new ArrayList<Connection>(INITIAL_POOL_SIZE);
+
             dataSource = getDataSource();
             for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
                 try {
                     pool.add(createConnection(dataSource.getUrl(),
-                            dataSource.getUsernname(),
+                            dataSource.getUsername(),
                             dataSource.getPassword()));
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

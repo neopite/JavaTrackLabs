@@ -12,17 +12,18 @@ import java.util.List;
 
 public class TrainTripDAOImpl extends TrainTripDAO {
 
-    private final String CREATE = "insert into " + this.getTable() +
+    private final String table = "train_trip";
+    private final String CREATE = "insert into " + table +
             " (train_route,price,train,available_seats) values(?,?)";
-    private final String FIND_TRAIN_TRIP_BY_ID = "select * from " + this.getTable() + " where id_train_trip=? and isActive=true";
-    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + this.getTable() + " set isActive=false where id_train=?";
-    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + this.getTable() + " set isActive=false where train_route=?";
-    private final String GET_ALL_TRIPS = "select * from " + this.getTable() + " where isActive=true";
-    private final String FIND_TRAIN_TRIPS_BY_ROUTE = "select * from " + this.getTable() + " where train_route=? and isActive=true";
+    private final String FIND_TRAIN_TRIP_BY_ID = "select * from " + table + " where id_train_trip=? and isActive=true";
+    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + table + " set isActive=false where id_train=?";
+    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set isActive=false where train_route=?";
+    private final String GET_ALL_TRIPS = "select * from " +table+ " where isActive=true";
+    private final String FIND_TRAIN_TRIPS_BY_ROUTE = "select * from " + table+ " where train_route=? and isActive=true";
 
 
-    public TrainTripDAOImpl(Connection connection, String table) {
-        super(connection, table);
+    public TrainTripDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override

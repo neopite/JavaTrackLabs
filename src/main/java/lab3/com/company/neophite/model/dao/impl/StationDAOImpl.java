@@ -1,6 +1,5 @@
 package lab3.com.company.neophite.model.dao.impl;
 
-import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
 import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.entity.Station;
 
@@ -13,23 +12,23 @@ import java.util.List;
 
 public class StationDAOImpl extends StationDAO {
 
-    private final String CREATE = "insert into " + this.getTable() +
+    private final String table = "stations";
+    private final String CREATE = "insert into " + table +
             " (name) values(?)";
-    private final String FIND_STATION_BY_NAME = "select * from " + this.getTable() + " where name=? and isActive=true";
-    private final String FIND_STATION_BY_ID = "select * from " + this.getTable() + " where id_station=? and isActive=true ";
-    private final String DELETE_STATION_BY_ID = "update " + this.getTable() + " set isActive=false where id_station=?";
-    private final String UPDATE_STATION_BY_ID = "update " + this.getTable() + " set name=? where id_station=? and isActive=true";
-    private final String GET_ALL_STATION = "select * from " + this.getTable() + " where isActive=true";
+    private final String FIND_STATION_BY_NAME = "select * from " + table + " where name=? and isActive=true";
+    private final String FIND_STATION_BY_ID = "select * from " + table + " where id_station=? and isActive=true ";
+    private final String DELETE_STATION_BY_ID = "update " + table + " set isActive=false where id_station=?";
+    private final String UPDATE_STATION_BY_ID = "update " + table + " set name=? where id_station=? and isActive=true";
+    private String GET_ALL_STATION = "select * from " + table + " where isActive=true";
 
-    public StationDAOImpl(Connection connection, String table) {
-        super(connection, table);
+    public StationDAOImpl(Connection connection) {
+        super(connection);
     }
 
     public Station findStationByName(String name) {
         Station station = null;
         try (PreparedStatement preparedStatement = getStatement(FIND_STATION_BY_NAME)) {
-            preparedStatement.setString(1, name);
-            ResultSet res = preparedStatement.executeQuery();
+            preparedStatement.setString(1, name);ResultSet res = preparedStatement.executeQuery();
             while (res.next()) {
                 station = new Station(res.getLong("id_station"), res.getString("name"));
             }
