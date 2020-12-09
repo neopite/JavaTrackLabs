@@ -1,11 +1,8 @@
 package lab3.com.company.neophite.model.dao;
 
-import lab3.com.company.neophite.model.dao.connection.ConnectionPool;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public abstract class AbstractDAO<T, PK> implements AutoCloseable {
@@ -33,13 +30,6 @@ public abstract class AbstractDAO<T, PK> implements AutoCloseable {
         }
     }
 
-    public void closeStatement(Statement statement) {
-        try {
-            statement.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 
     public PreparedStatement getStatement(String query) {
         PreparedStatement preparedStatement = null;

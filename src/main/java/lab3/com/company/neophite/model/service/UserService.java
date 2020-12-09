@@ -14,9 +14,20 @@ public class UserService {
     public User findUserByUsername(String username) {
         try (UserDAO userDAO = daoFactory.createUserDAO()) {
             User user = userDAO.findUserByUsername(username);
-            if (user == null) {
-                return user;
-            } else return user;
+            return user;
         }
+    }
+
+    public User createUser(User user){
+        try(UserDAO userDAO = daoFactory.createUserDAO()){
+            User newUser = userDAO.findUserByUsername(user.getUsername());
+            if(newUser==null){
+                userDAO.create(user);
+                return newUser;
+            }else {
+            //    throw new Exception()
+            }
+        }
+        return null;
     }
 }
