@@ -4,7 +4,6 @@ import lab3.com.company.neophite.controller.command.Command;
 import lab3.com.company.neophite.controller.command.CommandList;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,10 +12,12 @@ import java.util.HashMap;
 
 public class Servlet extends HttpServlet {
     private HashMap<String, CommandList> contoller = new HashMap<>();
+    private final String REDIRECT = "redirect:";
 
     @Override
     public void init() throws ServletException {
-        contoller.put("/registration",CommandList.REGISTRATE);
+        contoller.put("/registration", CommandList.REGISTER);
+        contoller.put("/trips", CommandList.GET_TRIPS);
     }
 
     @Override
@@ -24,8 +25,11 @@ public class Servlet extends HttpServlet {
         String URI = req.getRequestURI();
         Command command = contoller.get(URI).getCommand();
         String result = command.execute(req);
+        if (result.contains(REDIRECT)) {
+            resp.sendRedirect(result.replace(REDIRECT, ""));
+        } else {
+            req.getRequestDispatcher(result).forward(req, resp);
+        }
 
     }
-
-
 }

@@ -1,4 +1,6 @@
-<%--
+<%@ page import="lab3.com.company.neophite.model.entity.TrainTrip" %>
+<%@ page import="lab3.com.company.neophite.model.entity.Train" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Stami
   Date: 01.12.2020
@@ -7,10 +9,30 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
+<head>
     <title>Залізнична касса</title>
-  </head>
-  <body>
-  <h1></h1>
-  </body>
+</head>
+<body>
+<h1>Railway Ticket office</h1>
+<form action="trips" method="post">
+    <input type="text" name="fromStation" placeholder="From">
+    <input type="text" name="toStation" placeholder="To">
+    <input type="submit" value="Find">
+</form>
+<table>
+    <% if (request.getAttribute("trips") != null) {%>
+    <%for (TrainTrip trainTrip : (List<TrainTrip>) request.getAttribute("trips")) { %>
+    <tr>
+        <td><%= trainTrip.getId()  %></td>
+        <td><%= trainTrip.getTrainRouteId()  %></td>
+        <td><%= trainTrip.getPrice() %></td>
+        <td><%= trainTrip.getTrainId()  %></td>
+        <td><%= trainTrip.getAvailableSeats()  %></td>
+    </tr>
+    <%
+            }
+        }
+    %>
+</table>
+</body>
 </html>

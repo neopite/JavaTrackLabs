@@ -19,7 +19,7 @@ public class RegistrationCommand implements Command {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (username.length() == 0) {
-            return "reg.jsp";
+            return "/reg.jsp";
         } else {
             User newUser = new User(
                     request.getParameter("username"),
@@ -29,7 +29,7 @@ public class RegistrationCommand implements Command {
                     request.getParameter("email")
             );
             userService.createUser(newUser);
-            return "redirect:/login";
+            return "redirect:/login.jsp";
         }
     }
 }
