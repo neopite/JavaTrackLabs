@@ -4,7 +4,6 @@ import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 

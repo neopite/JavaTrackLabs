@@ -10,10 +10,9 @@ public abstract class DAOFactory {
     public abstract TrainRouteDAO createTrainRouteDAO();
     public abstract TrainTripDAO createTrainTripDAO();
     public abstract UserDAO createUserDAO();
-    public DAOFactory getDaoFactory(){
+    public static DAOFactory getDaoFactory(){
         if(daoFactory == null){
             daoFactory = new DAOFactoryImpl();
-
         }
         return daoFactory;
     }

@@ -26,7 +26,7 @@ public class StationService {
 
     public StationService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
-        daoFactory = new DAOFactoryImpl();
+        this.daoFactory = daoFactory;
     }
 
 

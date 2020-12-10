@@ -19,9 +19,9 @@ public class TrainRouteService {
     private final Connection transactionConnection;
     private DAOFactory daoFactory ;
 
-    public TrainRouteService() {
+    public TrainRouteService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
-        this.daoFactory = new DAOFactoryImpl();
+        this.daoFactory = daoFactory;
     }
 
     public TrainRoute addTrainRoute(TrainRoute trainRoute) {
