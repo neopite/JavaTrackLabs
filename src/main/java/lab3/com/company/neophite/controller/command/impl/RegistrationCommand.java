@@ -16,17 +16,17 @@ public class RegistrationCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String username = (String) request.getAttribute("username");
-        String password = (String) request.getAttribute("password");
-        if(username.length()==0){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (username.length() == 0) {
             return "reg.jsp";
-        }else{
+        } else {
             User newUser = new User(
-                    (String)request.getAttribute("username"),
-                    (String)request.getAttribute("password"),
-                    (String)request.getAttribute("name"),
-                    (int)request.getAttribute("age"),
-                    (String)request.getAttribute("email")
+                    request.getParameter("username"),
+                    request.getParameter("password"),
+                    request.getParameter("name"),
+                    Integer.parseInt(request.getParameter("age")),
+                    request.getParameter("email")
             );
             userService.createUser(newUser);
             return "redirect:/login";

@@ -19,6 +19,7 @@ public class UserService {
     }
 
     public User createUser(User user){
+        System.out.println(daoFactory.toString());
         try(UserDAO userDAO = daoFactory.createUserDAO()){
             User newUser = userDAO.findUserByUsername(user.getUsername());
             if(newUser==null){
