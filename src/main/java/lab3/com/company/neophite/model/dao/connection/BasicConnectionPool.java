@@ -12,23 +12,20 @@ import java.util.Properties;
 
 public class BasicConnectionPool implements ConnectionPool {
 
-    private String url;
-    private String user;
-    private String password;
     private static final String DB_PROPERTIES =
             "C:\\Users\\Stami\\IdeaProjects\\Java-Lab01\\src\\main\\resources\\database.properties";
     private static DataSource dataSource;
     private static BasicConnectionPool instance = null;  // lazy loading
     private static List<Connection> connectionPool;
-    private static List<Connection> usedConnections = new ArrayList();
-    private static int INITIAL_POOL_SIZE = 10;
+    private static List<Connection> usedConnections = new ArrayList<Connection>();
+    private static final int INITIAL_POOL_SIZE = 10;
 
 
     private BasicConnectionPool(List<Connection> newPool) {
         connectionPool = newPool;
     }
 
-    public BasicConnectionPool() {
+    private BasicConnectionPool() {
 
     }
 
@@ -83,23 +80,11 @@ public class BasicConnectionPool implements ConnectionPool {
         return usedConnections.remove(connection);
     }
 
-    public String getUrl() {
-        return this.url;
-    }
-
-    public String getUser() {
-        return this.user;
-    }
-
     private static Connection createConnection(
             String url, String user, String password)
             throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(url, user, password);
-    }
-
-    public String getPassword() {
-        return this.password;
     }
 
     public List<Connection> getConnectionPool() {

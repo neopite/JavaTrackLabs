@@ -2,10 +2,9 @@ package lab3.com.company.neophite.model.service;
 
 import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.StationDAO;
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
-import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
+import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
@@ -40,11 +39,13 @@ public class StationService {
             if (!station) {
                 throw new StationNotFoundException("Station with id : " + stationId + " not found");
             }
-            List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
             boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(stationId);
             if (!trainRouteIstrue) {
                 throw new TrainRouteNotFoundException("Train Routes with station : " + stationId + "  not found");
             }
+
+            List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
+
             for (TrainRoute trainRoute : listOfRoutesByStation) {
                 boolean isDeleted = trainTripDAO.deleteAllTrainTripsByRouteId(trainRoute.getId());
                 if (!isDeleted) {

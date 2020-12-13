@@ -2,6 +2,7 @@ package lab3.com.company.neophite.model.dao.impl;
 
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.entity.TrainRoute;
+import lab3.com.company.neophite.model.mapper.impl.TrainRouteMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,17 +10,20 @@ import java.util.List;
 
 public class TrainRouteDAOImpl extends TrainRouteDAO {
 
+    private TrainRouteMapper trainRouteMapper = new TrainRouteMapper();
+
     private final String table = "trains_route";
     private final String CREATE = "insert into " + table+
             " (station_start,start_date,station_end,end_date) values(?,?,?,?)";
-    private final String FIND_BY_TRAIN_ROUTE_ID = "select * from " + table + " where id_train_route=? and isActive=true";
-    private final String FIND_BY_FIRST_STATION = "select * from " + table + " where station_start=? and isActive=true";
-    private final String FIND_BY_END_STATION = "select * from " + table + " where station_end=? and isActive=true";
-    private final String FIND_ROUTES_BETWEEN_TWO_STATION = "select * from " + table + " where station_start=? and station_end=? and isActive=true";
-    private final String FIND_ALL_ROUTES_BY_STATION = "select * from " + table +" where (station_start=? or station_end=?) and isActive=true";
-    private final String DELETE_ROUTE_BY_ID = "update from " + table + "set isActive=false where id_train_route=?  ";
-    private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ "set isActive=false where station_start=? or station_end=?";
-    private final String GET_ALL_TRAIN_ROUTES = "select * from " + table+ " where isActive=true";
+    private final String  FIND_ALL = "select * from trains_route left join stations s on trains_route.station_end = s.id_station or trains_route.station_start = s.id_station";
+    private final String FIND_BY_TRAIN_ROUTE_ID = FIND_ALL + " where id_train_route=? and s.isActive=true";
+    private final String FIND_BY_FIRST_STATION = FIND_ALL + " where station_start=? and s.isActive=true";
+    private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and s.isActive=true";
+    private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and s.isActive=true";
+    private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and s.isActive=true";
+    private final String DELETE_ROUTE_BY_ID = "update from " + table + " isActive=false where id_train_route=?  ";
+    private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ " set isActive=false where station_start=? or station_end=?";
+    private final String GET_ALL_TRAIN_ROUTES = FIND_ALL+ " where s.isActive=true";
 
     public TrainRouteDAOImpl(Connection connection) {
         super(connection);
@@ -31,13 +35,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             preparedStatement.setLong(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                TrainRoute trainRoute = new TrainRoute(
-                        resultSet.getLong("id_train_route"),
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+               TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
                 listOfTraintRoutes.add(trainRoute);
             }
         } catch (SQLException throwables) {
@@ -52,13 +50,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             preparedStatement.setLong(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                TrainRoute trainRoute = new TrainRoute(
-                        resultSet.getLong("id_train_route"),
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+                TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
                 listOfTraintRoutes.add(trainRoute);
             }
         } catch (SQLException throwables) {
@@ -75,13 +67,8 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             preparedStatement.setLong(2,second);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                TrainRoute trainRoute = new TrainRoute(
-                        resultSet.getLong("id_train_route"),
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+                TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
+
                 listOfRoutes.add(trainRoute);
             }
         }catch (SQLException sqlException){
@@ -110,13 +97,8 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             preparedStatement.setLong(2 , stationId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                TrainRoute trainRoute = new TrainRoute(
-                        resultSet.getLong("id_train_route"),
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+                TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
+
                 listOfRoutes.add(trainRoute);
             }
         }catch (SQLException sqlException){
@@ -128,9 +110,9 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
 
     public TrainRoute create(TrainRoute trainRoute) {
         try (PreparedStatement preparedStatement = getStatement(CREATE)) {
-            preparedStatement.setLong(1, trainRoute.getStartStation());
+            preparedStatement.setLong(1, trainRoute.getStartStation().getId());
             preparedStatement.setDate(2, (Date) trainRoute.getStartDate());
-            preparedStatement.setLong(3, trainRoute.getFinishStation());
+            preparedStatement.setLong(3, trainRoute.getFinishStation().getId());
             preparedStatement.setDate(4, (Date) trainRoute.getFinishDate());
             preparedStatement.execute();
         } catch (SQLException throwables) {
@@ -145,12 +127,8 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             preparedStatement.setLong(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                trainRoute = new TrainRoute(
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+                 trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -174,12 +152,8 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
         try(        PreparedStatement preparedStatement = getStatement(GET_ALL_TRAIN_ROUTES)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                TrainRoute trainRoute = new TrainRoute(
-                        resultSet.getLong("station_start"),
-                        resultSet.getLong("station_end"),
-                        resultSet.getDate("start_date"),
-                        resultSet.getDate("end_date")
-                );
+                TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
+
                 listOTraintRoutes.add(trainRoute);
             }
         } catch (SQLException throwables) {

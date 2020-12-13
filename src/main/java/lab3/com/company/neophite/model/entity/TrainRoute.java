@@ -5,8 +5,8 @@ import java.sql.Date;
 
 public class TrainRoute {
     private long id;
-    private long startStation;
-    private long finishStation;
+    private Station startStation;
+    private Station finishStation;
     private Date startDate;
     private Date finishDate;
     private boolean isActive;
@@ -14,14 +14,14 @@ public class TrainRoute {
     public TrainRoute() {
     }
 
-    public TrainRoute(long startStation, long finishStation, Date startDate, Date finishDate) {
+    public TrainRoute(Station startStation, Station finishStation, Date startDate, Date finishDate) {
         this.startStation = startStation;
         this.finishStation = finishStation;
         this.startDate = startDate;
         this.finishDate = finishDate;
     }
 
-    public TrainRoute(long id, long startStation, long finishStation, Date startDate, Date finishDate) {
+    public TrainRoute(long id, Station startStation, Station finishStation, Date startDate, Date finishDate) {
         this.id = id;
         this.startStation = startStation;
         this.finishStation = finishStation;
@@ -46,19 +46,19 @@ public class TrainRoute {
         this.id = id;
     }
 
-    public long getStartStation() {
+    public Station getStartStation() {
         return startStation;
     }
 
-    public void setStartStation(long startStation) {
+    public void setStartStation(Station startStation) {
         this.startStation = startStation;
     }
 
-    public long getFinishStation() {
+    public Station getFinishStation() {
         return finishStation;
     }
 
-    public void setFinishStation(long finishStation) {
+    public void setFinishStation(Station finishStation) {
         this.finishStation = finishStation;
     }
 

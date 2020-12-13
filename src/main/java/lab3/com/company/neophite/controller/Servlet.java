@@ -12,7 +12,6 @@ import java.util.HashMap;
 
 public class Servlet extends HttpServlet {
     private HashMap<String, CommandList> contoller = new HashMap<>();
-    private final String REDIRECT = "redirect:";
 
     @Override
     public void init() throws ServletException {
@@ -25,11 +24,10 @@ public class Servlet extends HttpServlet {
         String URI = req.getRequestURI();
         Command command = contoller.get(URI).getCommand();
         String result = command.execute(req);
-        if (result.contains(REDIRECT)) {
-            resp.sendRedirect(result.replace(REDIRECT, ""));
+        if (result.contains("redirect:")) {
+            resp.sendRedirect(result.replace("redirect:", ""));
         } else {
             req.getRequestDispatcher(result).forward(req, resp);
         }
-
     }
 }

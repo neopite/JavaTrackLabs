@@ -17,6 +17,12 @@ public class Station {
         this.name = name;
     }
 
+    public Station(long id, String name, boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.isActive = isActive;
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -39,5 +45,13 @@ public class Station {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

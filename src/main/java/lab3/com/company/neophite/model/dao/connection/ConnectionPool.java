@@ -5,7 +5,5 @@ import java.sql.Connection;
 public interface ConnectionPool {
     Connection getConnection();
     boolean shutdownConnection(Connection connection);
-    String getUrl();
-    String getUser();
-    String getPassword();
+
 }

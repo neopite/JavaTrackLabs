@@ -28,7 +28,8 @@ public class StationDAOImpl extends StationDAO {
     public Station findStationByName(String name) {
         Station station = null;
         try (PreparedStatement preparedStatement = getStatement(FIND_STATION_BY_NAME)) {
-            preparedStatement.setString(1, name);ResultSet res = preparedStatement.executeQuery();
+            preparedStatement.setString(1, name);
+            ResultSet res = preparedStatement.executeQuery();
             while (res.next()) {
                 station = new Station(res.getLong("id_station"), res.getString("name"));
             }

@@ -12,6 +12,7 @@
 <head>
     <title>Залізнична касса</title>
 </head>
+<%@include file="guest-header.jspf" %>
 <body>
 <h1>Railway Ticket office</h1>
 <form action="trips" method="post">
@@ -24,7 +25,7 @@
     <%for (TrainTrip trainTrip : (List<TrainTrip>) request.getAttribute("trips")) { %>
     <tr>
         <td><%= trainTrip.getId()  %></td>
-        <td><%= trainTrip.getTrainRouteId()  %></td>
+        <td><%= trainTrip.getTraintRoute()  %></td>
         <td><%= trainTrip.getPrice() %></td>
         <td><%= trainTrip.getTrainId()  %></td>
         <td><%= trainTrip.getAvailableSeats()  %></td>

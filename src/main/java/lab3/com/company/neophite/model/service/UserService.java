@@ -12,7 +12,7 @@ public class UserService {
     }
 
     public User findUserByUsername(String username) {
-        try (UserDAO userDAO = daoFactory.createUserDAO()) {
+        try (UserDAO userDAO = daoFactory.createUserDAO()) { //TODO : Connection
             User user = userDAO.findUserByUsername(username);
             return user;
         }

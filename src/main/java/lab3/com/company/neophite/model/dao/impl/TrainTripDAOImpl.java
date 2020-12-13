@@ -62,7 +62,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
     @Override
     public TrainTrip create(TrainTrip trainTrip) {
         try (PreparedStatement preparedStatement = getStatement(CREATE)) {
-            preparedStatement.setLong(1, trainTrip.getTrainRouteId());
+            preparedStatement.setLong(1, trainTrip.getTraintRoute());
             preparedStatement.setDouble(2, trainTrip.getPrice());
             preparedStatement.setLong(3, trainTrip.getTrainId());
             preparedStatement.setInt(4, trainTrip.getAvailableSeats());

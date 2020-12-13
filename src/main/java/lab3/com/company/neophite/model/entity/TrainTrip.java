@@ -2,7 +2,7 @@ package lab3.com.company.neophite.model.entity;
 
 public class TrainTrip {
     private long id;
-    private long trainRouteId;
+    private long traintRoute;
     private long trainId;
     private float price;
     private int availableSeats;
@@ -11,16 +11,16 @@ public class TrainTrip {
     public TrainTrip() {
     }
 
-    public TrainTrip(long id, long trainRouteId, long trainId, float price, int availableSeats) {
+    public TrainTrip(long id, long traintRoute, long trainId, float price, int availableSeats) {
         this.id = id;
-        this.trainRouteId = trainRouteId;
+        this.traintRoute = traintRoute;
         this.trainId = trainId;
         this.price = price;
         this.availableSeats = availableSeats;
     }
 
-    public TrainTrip(long trainRouteId, long trainId, float price, int availableSeats) {
-        this.trainRouteId = trainRouteId;
+    public TrainTrip(long traintRoute, long trainId, float price, int availableSeats) {
+        this.traintRoute = traintRoute;
         this.trainId = trainId;
         this.price = price;
         this.availableSeats = availableSeats;
@@ -42,12 +42,12 @@ public class TrainTrip {
         this.id = id;
     }
 
-    public long getTrainRouteId() {
-        return trainRouteId;
+    public long getTraintRoute() {
+        return traintRoute;
     }
 
-    public void setTrainRouteId(long trainRouteId) {
-        this.trainRouteId = trainRouteId;
+    public void setTraintRoute(long traintRoute) {
+        this.traintRoute = traintRoute;
     }
 
     public long getTrainId() {
@@ -78,7 +78,7 @@ public class TrainTrip {
     public String toString() {
         return "TrainTrip{" +
                 "id=" + id +
-                ", trainRouteId=" + trainRouteId +
+                ", trainRouteId=" + traintRoute +
                 ", trainId=" + trainId +
                 ", price=" + price +
                 ", availableSeats=" + availableSeats +
