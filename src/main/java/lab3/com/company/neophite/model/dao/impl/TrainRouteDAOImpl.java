@@ -16,14 +16,14 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String CREATE = "insert into " + table+
             " (station_start,start_date,station_end,end_date) values(?,?,?,?)";
     private final String  FIND_ALL = "select * from trains_route left join stations s on trains_route.station_end = s.id_station or trains_route.station_start = s.id_station";
-    private final String FIND_BY_TRAIN_ROUTE_ID = FIND_ALL + " where id_train_route=? and s.isActive=true";
-    private final String FIND_BY_FIRST_STATION = FIND_ALL + " where station_start=? and s.isActive=true";
-    private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and s.isActive=true";
-    private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and s.isActive=true";
-    private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and s.isActive=true";
+    private final String FIND_BY_TRAIN_ROUTE_ID = FIND_ALL + " where id_train_route=? and trains_route.isActive=true";
+    private final String FIND_BY_FIRST_STATION = FIND_ALL + " where station_start=? and trains_route.isActive=true";
+    private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and trains_route.isActive=true";
+    private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and trains_route.isActive=true";
+    private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and trains_route.isActive=true";
     private final String DELETE_ROUTE_BY_ID = "update from " + table + " isActive=false where id_train_route=?  ";
     private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ " set isActive=false where station_start=? or station_end=?";
-    private final String GET_ALL_TRAIN_ROUTES = FIND_ALL+ " where s.isActive=true";
+    private final String GET_ALL_TRAIN_ROUTES = FIND_ALL+ " where trains_route.isActive=true";
 
     public TrainRouteDAOImpl(Connection connection) {
         super(connection);

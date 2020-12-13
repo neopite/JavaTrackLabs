@@ -2,8 +2,8 @@ package lab3.com.company.neophite.model.entity;
 
 public class TrainTrip {
     private long id;
-    private long traintRoute;
-    private long trainId;
+    private TrainRoute traintRoute;
+    private Train trainId;
     private float price;
     private int availableSeats;
     private boolean isActive;
@@ -11,7 +11,7 @@ public class TrainTrip {
     public TrainTrip() {
     }
 
-    public TrainTrip(long id, long traintRoute, long trainId, float price, int availableSeats) {
+    public TrainTrip(long id, TrainRoute traintRoute, Train trainId, float price, int availableSeats) {
         this.id = id;
         this.traintRoute = traintRoute;
         this.trainId = trainId;
@@ -19,7 +19,7 @@ public class TrainTrip {
         this.availableSeats = availableSeats;
     }
 
-    public TrainTrip(long traintRoute, long trainId, float price, int availableSeats) {
+    public TrainTrip(TrainRoute traintRoute, Train trainId, float price, int availableSeats) {
         this.traintRoute = traintRoute;
         this.trainId = trainId;
         this.price = price;
@@ -42,19 +42,19 @@ public class TrainTrip {
         this.id = id;
     }
 
-    public long getTraintRoute() {
+    public TrainRoute getTraintRoute() {
         return traintRoute;
     }
 
-    public void setTraintRoute(long traintRoute) {
+    public void setTraintRoute(TrainRoute traintRoute) {
         this.traintRoute = traintRoute;
     }
 
-    public long getTrainId() {
+    public Train getTrainId() {
         return trainId;
     }
 
-    public void setTrainId(long trainId) {
+    public void setTrainId(Train trainId) {
         this.trainId = trainId;
     }
 

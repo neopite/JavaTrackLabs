@@ -25,7 +25,8 @@
     <%for (TrainTrip trainTrip : (List<TrainTrip>) request.getAttribute("trips")) { %>
     <tr>
         <td><%= trainTrip.getId()  %></td>
-        <td><%= trainTrip.getTraintRoute()  %></td>
+        <td><%= trainTrip.getTraintRoute().getStartStation() %></td>
+        <td><%= trainTrip.getTraintRoute().getFinishStation() %></td>
         <td><%= trainTrip.getPrice() %></td>
         <td><%= trainTrip.getTrainId()  %></td>
         <td><%= trainTrip.getAvailableSeats()  %></td>

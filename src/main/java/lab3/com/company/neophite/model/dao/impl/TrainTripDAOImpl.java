@@ -2,6 +2,7 @@ package lab3.com.company.neophite.model.dao.impl;
 
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
 import lab3.com.company.neophite.model.entity.TrainTrip;
+import lab3.com.company.neophite.model.mapper.impl.TrainTripMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrainTripDAOImpl extends TrainTripDAO {
-
+private TrainTripMapper trainTripMapper = new TrainTripMapper();
     private final String table = "train_trip";
     private final String CREATE = "insert into " + table +
             " (train_route,price,train,available_seats) values(?,?)";
-    private final String FIND_TRAIN_TRIP_BY_ID = "select * from " + table + " where id_train_trip=? and isActive=true";
-    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + table + " set isActive=false where id_train=?";
-    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set isActive=false where train_route=?";
-    private final String GET_ALL_TRIPS = "select * from " +table+ " where isActive=true";
-    private final String FIND_TRAIN_TRIPS_BY_ROUTE = "select * from " + table+ " where train_route=? and isActive=true";
+    private final String FIND_ALL = "select id_train_trip, id_train_route, available_seats, price ,id_station,name , start_date,end_date ,id_train, model ,count_of_places\n" +
+            "from train_trip\n" +
+            "         left join trains_route tr on train_trip.train_route = tr.id_train_route\n" +
+            "         left join stations s on tr.station_end = s.id_station or tr.station_start = s.id_station\n" +
+            "         left join trains t on train_trip.train = t.id_train";
+
+    private final String FIND_TRAIN_TRIP_BY_ID = FIND_ALL + " where id_train_trip=? and train_trip.isActive=true";
+    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + table + " set train_trip.isActive=false where id_train=?";
+    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set train_trip.isActive=false where train_route=?";
+    private final String GET_ALL_TRIPS = FIND_ALL+ " where isActive=true";
+    private final String FIND_TRAIN_TRIPS_BY_ROUTE = FIND_ALL + " where train_route=? and train_trip.isActive=true";
 
 
     public TrainTripDAOImpl(Connection connection) {
@@ -33,13 +40,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
             preparedStatement.setLong(1, routeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                TrainTrip trainTrip = new TrainTrip(
-                        resultSet.getLong("id_train_trip"),
-                        resultSet.getLong("train"),
-                        resultSet.getLong("train_route"),
-                        resultSet.getFloat("price"),
-                        resultSet.getInt("available_seats")
-                );
+                TrainTrip trainTrip = trainTripMapper.extractEntityFromTheRS(resultSet);
                 trainTrips.add(trainTrip);
             }
         } catch (SQLException sqlException) {
@@ -62,9 +63,9 @@ public class TrainTripDAOImpl extends TrainTripDAO {
     @Override
     public TrainTrip create(TrainTrip trainTrip) {
         try (PreparedStatement preparedStatement = getStatement(CREATE)) {
-            preparedStatement.setLong(1, trainTrip.getTraintRoute());
+            preparedStatement.setLong(1, trainTrip.getTraintRoute().getId());
             preparedStatement.setDouble(2, trainTrip.getPrice());
-            preparedStatement.setLong(3, trainTrip.getTrainId());
+            preparedStatement.setLong(3, trainTrip.getTrainId().getId());
             preparedStatement.setInt(4, trainTrip.getAvailableSeats());
             preparedStatement.execute();
         } catch (SQLException sqlException) {
@@ -80,13 +81,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
             preparedStatement.setLong(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                trainTrip = new TrainTrip(
-                        resultSet.getLong("id_train,trip"),
-                        resultSet.getLong("train"),
-                        resultSet.getLong("train_route"),
-                        resultSet.getFloat("price"),
-                        resultSet.getInt("available_seats")
-                );
+                trainTrip = trainTripMapper.extractEntityFromTheRS(resultSet);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -111,13 +106,7 @@ public class TrainTripDAOImpl extends TrainTripDAO {
         try (PreparedStatement preparedStatement = getStatement(GET_ALL_TRIPS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                TrainTrip trainTrip = new TrainTrip(
-                        resultSet.getLong("id_train,trip"),
-                        resultSet.getLong("train"),
-                        resultSet.getLong("train_route"),
-                        resultSet.getFloat("price"),
-                        resultSet.getInt("available_seats")
-                );
+                TrainTrip trainTrip =trainTripMapper.extractEntityFromTheRS(resultSet);
                 listOfTrainTrips.add(trainTrip);
             }
         } catch (SQLException sqlException) {

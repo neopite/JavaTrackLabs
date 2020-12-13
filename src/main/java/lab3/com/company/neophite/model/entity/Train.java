@@ -13,6 +13,12 @@ public class Train {
         this.places = places;
     }
 
+    public Train(long id, String model, int places) {
+        this.id = id;
+        this.model = model;
+        this.places = places;
+    }
+
     public long getId() {
         return id;
     }
