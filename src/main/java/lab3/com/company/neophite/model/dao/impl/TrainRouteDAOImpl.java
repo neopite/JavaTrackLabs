@@ -21,7 +21,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and trains_route.isActive=true";
     private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and trains_route.isActive=true";
     private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and trains_route.isActive=true";
-    private final String DELETE_ROUTE_BY_ID = "update from " + table + " isActive=false where id_train_route=?  ";
+    private final String DELETE_ROUTE_BY_ID = "update " + table + "set isActive=false where id_train_route=?  ";
     private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ " set isActive=false where station_start=? or station_end=?";
     private final String GET_ALL_TRAIN_ROUTES = FIND_ALL+ " where trains_route.isActive=true";
 

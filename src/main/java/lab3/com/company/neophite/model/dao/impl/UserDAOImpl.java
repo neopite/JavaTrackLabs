@@ -2,6 +2,7 @@ package lab3.com.company.neophite.model.dao.impl;
 
 import lab3.com.company.neophite.model.dao.UserDAO;
 import lab3.com.company.neophite.model.entity.User;
+import lab3.com.company.neophite.model.mapper.impl.UserMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ import java.util.List;
 
 public class UserDAOImpl extends UserDAO {
 
+    private UserMapper userMapper = new UserMapper();
+
     private final String table = "users";
     private final String CREATE_QUERY = "insert into " + table +
             " (username,password,name,age,email) values(?,?,?,?,?)";
@@ -19,6 +22,7 @@ public class UserDAOImpl extends UserDAO {
     private final String FIND_USER_BY_ID = "select * from " +table+ " where id=?";
     private final String DELETE_USER_BY_ID = "delete from " + table + " where id=?";
     private final String GET_ALL_USERS = "select* from " + table;
+    private final String UPDATE_USERS_MONEY = "update "+table+ " set money=? where id=?";
 
 
     public UserDAOImpl(Connection connection) {
@@ -31,20 +35,25 @@ public class UserDAOImpl extends UserDAO {
             preparedStatement.setString(1, username);
             ResultSet res = preparedStatement.executeQuery();
             while (res.next()) {
-                findedUser = new User(
-                        res.getLong("id"),
-                        res.getString("username"),
-                        res.getString("password"),
-                        res.getString("name"),
-                        res.getInt("age"),
-                        res.getString("email")
-                );
+                findedUser = userMapper.extractEntityFromTheRS(res);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return findedUser;
 
+    }
+
+    public boolean updateUsersMoney(long userId , float currentMoney){
+        boolean executed = false;
+        try(PreparedStatement preparedStatement = getStatement(UPDATE_USERS_MONEY)) {
+            preparedStatement.setFloat(1,currentMoney);
+            preparedStatement.setLong(2,userId);
+           return executed = preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return executed;
     }
 
     @Override
@@ -68,14 +77,7 @@ public class UserDAOImpl extends UserDAO {
         try(PreparedStatement preparedStatement = getStatement(FIND_USER_BY_ID)) {
             preparedStatement.setLong(1, key);
             ResultSet res = preparedStatement.executeQuery();
-            user = new User(
-                    res.getLong("id"),
-                    res.getString("username"),
-                    res.getString("password"),
-                    res.getString("name"),
-                    res.getInt("age"),
-                    res.getString("email")
-            );
+            user = userMapper.extractEntityFromTheRS(res);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -102,14 +104,7 @@ public class UserDAOImpl extends UserDAO {
         try(PreparedStatement preparedStatement = getStatement(GET_ALL_USERS)){
             res = preparedStatement.executeQuery();
             while (res.next()) {
-                User user = new User(
-                        res.getLong("id"),
-                        res.getString("username"),
-                        res.getString("password"),
-                        res.getString("name"),
-                        res.getInt("age"),
-                        res.getString("email")
-                );
+                User user = userMapper.extractEntityFromTheRS(res);
                 listOfUsers.add(user);
             }
         } catch (SQLException throwables) {

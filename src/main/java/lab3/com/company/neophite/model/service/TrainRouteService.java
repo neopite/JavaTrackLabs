@@ -15,21 +15,23 @@ import java.sql.SQLException;
 public class TrainRouteService {
     private final Connection transactionConnection;
     private DAOFactory daoFactory ;
+    private BasicConnectionPool basicConnectionPool;
 
     public TrainRouteService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
         this.daoFactory = daoFactory;
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
     public TrainRoute addTrainRoute(TrainRoute trainRoute) {
-        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO()) {
+        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())) {
             return trainRouteDAO.create(trainRoute);
         }
     }
 
     public void deleteTrainRoute(long trainRoute) {
-        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO() ;
-            TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO()
+        try(TrainRouteDAO trainRouteDAO = DAOFactory.getDaoFactory().createTrainRouteDAO(transactionConnection) ;
+            TrainTripDAO trainTripDAO = DAOFactory.getDaoFactory().createTrainTripDAO(transactionConnection)
         ) {
             transactionConnection.setAutoCommit(false);
 

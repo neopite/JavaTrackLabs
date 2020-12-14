@@ -30,6 +30,7 @@
         <td><%= trainTrip.getPrice() %></td>
         <td><%= trainTrip.getTrainId()  %></td>
         <td><%= trainTrip.getAvailableSeats()  %></td>
+        <td><button>Buy</button></td>
     </tr>
     <%
             }

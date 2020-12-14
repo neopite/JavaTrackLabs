@@ -22,17 +22,19 @@ public class StationService {
 
     private DAOFactory daoFactory;
     private Connection transactionConnection;
+    private BasicConnectionPool basicConnectionPool;
 
     public StationService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
         this.daoFactory = daoFactory;
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
 
     public void deleteStation(long stationId) {
-        try (StationDAO stationDAO = new StationDAOImpl(transactionConnection);
-             TrainRouteDAO trainRouteDAO = new TrainRouteDAOImpl(transactionConnection);
-             TrainTripDAO trainTripDAO = new TrainTripDAOImpl(transactionConnection)) {
+        try (StationDAO stationDAO = DAOFactory.getDaoFactory().createStationDAO(transactionConnection);
+             TrainRouteDAO trainRouteDAO = DAOFactory.getDaoFactory().createTrainRouteDAO(transactionConnection);
+             TrainTripDAO trainTripDAO = DAOFactory.getDaoFactory().createTrainTripDAO(transactionConnection)) {
 
             transactionConnection.setAutoCommit(false);
             boolean station = stationDAO.deleteByKey(stationId);
@@ -65,7 +67,7 @@ public class StationService {
 
     public Station addStation(Station station) {
         Station station1;
-        try (StationDAO stationDAO = daoFactory.createStationDAO()) {
+        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection())) {
             station1 = stationDAO.create(station);
         }
         return station1;
@@ -73,7 +75,7 @@ public class StationService {
 
     public Station updateStation(long id, String newStationName) {
         Station station;
-        try (StationDAO stationDAO = daoFactory.createStationDAO()) {
+        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection())) {
             station = stationDAO.updateStation(id, newStationName);
         }
         return station;

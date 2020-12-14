@@ -7,6 +7,7 @@ public class User {
     private String name;
     private int age;
     private String email;
+    private float money;
 
     public User(){
 
@@ -20,13 +21,14 @@ public class User {
         this.email = email;
     }
 
-    public User(long id, String username, String passwd, String name, int age, String email) {
+    public User(long id, String username, String passwd, String name, int age, String email,float money) {
         this.id = id;
         this.username = username;
         this.passwd = passwd;
         this.name = name;
         this.age = age;
         this.email = email;
+        this.money = money;
     }
 
     public long getId() {
@@ -75,6 +77,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     @Override

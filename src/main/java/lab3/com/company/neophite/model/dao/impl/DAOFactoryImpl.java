@@ -3,36 +3,37 @@ package lab3.com.company.neophite.model.dao.impl;
 import lab3.com.company.neophite.model.dao.*;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 
+import java.sql.Connection;
+
 public class DAOFactoryImpl extends DAOFactory {
-    private static  BasicConnectionPool basicConnectionPool = BasicConnectionPool.getInstance();
 
     @Override
-    public StationDAO createStationDAO() {
-        return new StationDAOImpl(basicConnectionPool.getConnection());
+    public StationDAO createStationDAO(Connection connection) {
+        return new StationDAOImpl(connection);
     }
 
     @Override
-    public TicketDAO createTicketDAO() {
-        return new TicketDAOImpl(basicConnectionPool.getConnection());
+    public TicketDAO createTicketDAO(Connection connection) {
+        return new TicketDAOImpl(connection);
     }
 
     @Override
-    public TrainDAO createTrainDAO() {
-        return new TrainDAOImpl(basicConnectionPool.getConnection());
+    public TrainDAO createTrainDAO(Connection connection) {
+        return new TrainDAOImpl(connection);
     }
 
     @Override
-    public TrainRouteDAO createTrainRouteDAO() {
-        return new TrainRouteDAOImpl(basicConnectionPool.getConnection());
+    public TrainRouteDAO createTrainRouteDAO(Connection connection) {
+        return new TrainRouteDAOImpl(connection);
     }
 
     @Override
-    public TrainTripDAO createTrainTripDAO() {
-        return new TrainTripDAOImpl(basicConnectionPool.getConnection());
+    public TrainTripDAO createTrainTripDAO(Connection connection) {
+        return new TrainTripDAOImpl(connection);
     }
 
     @Override
-    public UserDAO createUserDAO() {
-        return new UserDAOImpl(basicConnectionPool.getConnection());
+    public UserDAO createUserDAO(Connection connection) {
+        return new UserDAOImpl(connection);
     }
 }

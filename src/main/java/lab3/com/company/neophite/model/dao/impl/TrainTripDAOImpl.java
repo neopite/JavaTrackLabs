@@ -27,6 +27,7 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
     private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set train_trip.isActive=false where train_route=?";
     private final String GET_ALL_TRIPS = FIND_ALL+ " where isActive=true";
     private final String FIND_TRAIN_TRIPS_BY_ROUTE = FIND_ALL + " where train_route=? and train_trip.isActive=true";
+    private final String UPDATE_TRAIN_TRIP_SEATS = "update train_trip set available_seats=? where id_train_trip=?";
 
 
     public TrainTripDAOImpl(Connection connection) {
@@ -58,6 +59,19 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
             sqlException.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean updateTrainTripAvailableSeats(long trainTripId, int seatsAvailable) {
+        boolean executed = false;
+        try(PreparedStatement preparedStatement = getStatement(UPDATE_TRAIN_TRIP_SEATS)) {
+            preparedStatement.setLong(1,trainTripId);
+            preparedStatement.setInt(2,seatsAvailable);
+            return executed = preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return executed;
     }
 
     @Override

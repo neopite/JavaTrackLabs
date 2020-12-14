@@ -9,4 +9,5 @@ public abstract class UserDAO extends AbstractDAO<User,Long> {
         super(connection);
     }
     public abstract User findUserByUsername(String username);
+    public abstract boolean updateUsersMoney(long userId , float currentMoney);
 }
