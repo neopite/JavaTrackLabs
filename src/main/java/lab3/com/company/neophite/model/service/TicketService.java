@@ -40,7 +40,7 @@ public class TicketService {
             boolean freeSeats = ticket.getTrainTripId().getAvailableSeats() != 0;
             if (!freeSeats) {
                 throw new NoFreeSeatException("No free places");
-            }else trainTripDAO.updateTrainTripAvailableSeats(ticket.getTrainTripId().getId(),)
+            }else trainTripDAO.updateTrainTripAvailableSeats(ticket.getTrainTripId().getId(),ticket.getTrainTripId().getAvailableSeats()-1);
             ticketDAO.create(ticket);
             transactionConnection.commit();
             transactionConnection.setAutoCommit(true);

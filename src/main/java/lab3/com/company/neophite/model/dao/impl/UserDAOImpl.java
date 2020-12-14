@@ -1,7 +1,10 @@
 package lab3.com.company.neophite.model.dao.impl;
 
 import lab3.com.company.neophite.model.dao.UserDAO;
+import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab3.com.company.neophite.model.entity.Role;
 import lab3.com.company.neophite.model.entity.User;
+import lab3.com.company.neophite.model.mapper.impl.RoleMapper;
 import lab3.com.company.neophite.model.mapper.impl.UserMapper;
 
 import java.sql.Connection;
@@ -14,16 +17,16 @@ import java.util.List;
 public class UserDAOImpl extends UserDAO {
 
     private UserMapper userMapper = new UserMapper();
-
+    private RoleMapper roleMapper = new RoleMapper();
     private final String table = "users";
     private final String CREATE_QUERY = "insert into " + table +
             " (username,password,name,age,email) values(?,?,?,?,?)";
+    private final String FIND_ALL = "select * from users left join users_roles ur on ur.user_id = users.id";
     private final String FIND_USER_BY_USERNAME = "select * from " + table + " where username='?'";
     private final String FIND_USER_BY_ID = "select * from " +table+ " where id=?";
     private final String DELETE_USER_BY_ID = "delete from " + table + " where id=?";
     private final String GET_ALL_USERS = "select* from " + table;
     private final String UPDATE_USERS_MONEY = "update "+table+ " set money=? where id=?";
-
 
     public UserDAOImpl(Connection connection) {
         super(connection);
@@ -55,6 +58,7 @@ public class UserDAOImpl extends UserDAO {
         }
         return executed;
     }
+
 
     @Override
     public User create(User user) {

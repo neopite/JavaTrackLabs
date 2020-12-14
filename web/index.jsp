@@ -20,7 +20,7 @@
     <input type="text" name="toStation" placeholder="To">
     <input type="submit" value="Find">
 </form>
-<table>
+<table border="1">
     <% if (request.getAttribute("trips") != null) {%>
     <%for (TrainTrip trainTrip : (List<TrainTrip>) request.getAttribute("trips")) { %>
     <tr>

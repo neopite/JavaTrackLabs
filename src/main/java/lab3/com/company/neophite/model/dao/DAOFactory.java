@@ -1,6 +1,7 @@
 package lab3.com.company.neophite.model.dao;
 
 import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
+import lab3.com.company.neophite.model.dao.impl.RoleDAOImpl;
 
 import java.sql.Connection;
 
@@ -18,6 +19,8 @@ public abstract class DAOFactory {
     public abstract TrainTripDAO createTrainTripDAO(Connection connection);
 
     public abstract UserDAO createUserDAO(Connection connection);
+
+    public abstract RoleDAOImpl createRoleDAO(Connection connection);
 
     public static DAOFactory getDaoFactory() {
         if (daoFactory == null) {

@@ -1,5 +1,7 @@
 package lab3.com.company.neophite.model.entity;
 
+import java.util.List;
+
 public class User {
     private long id;
     private String username;
@@ -8,6 +10,7 @@ public class User {
     private int age;
     private String email;
     private float money;
+    private List<Role> roles;
 
     public User(){
 
@@ -85,6 +88,14 @@ public class User {
 
     public void setMoney(float money) {
         this.money = money;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

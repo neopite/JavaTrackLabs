@@ -7,6 +7,7 @@ import java.sql.Connection;
 
 public class DAOFactoryImpl extends DAOFactory {
 
+
     @Override
     public StationDAO createStationDAO(Connection connection) {
         return new StationDAOImpl(connection);
@@ -35,5 +36,10 @@ public class DAOFactoryImpl extends DAOFactory {
     @Override
     public UserDAO createUserDAO(Connection connection) {
         return new UserDAOImpl(connection);
+    }
+
+    @Override
+    public RoleDAOImpl createRoleDAO(Connection connection) {
+        return new RoleDAOImpl(connection);
     }
 }

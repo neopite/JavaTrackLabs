@@ -3,7 +3,11 @@ package lab3.com.company.neophite.model.service;
 import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.UserDAO;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab3.com.company.neophite.model.dao.impl.RoleDAOImpl;
+import lab3.com.company.neophite.model.entity.Role;
 import lab3.com.company.neophite.model.entity.User;
+
+import java.util.List;
 
 public class UserService {
     private DAOFactory daoFactory;
@@ -15,8 +19,13 @@ public class UserService {
     }
 
     public User findUserByUsername(String username) {
-        try (UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection())) {
+        try (UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection());
+             RoleDAOImpl roleDAO = daoFactory.createRoleDAO(basicConnectionPool.getConnection())
+        ) {
             User user = userDAO.findUserByUsername(username);
+            List<Role> usersRoles = roleDAO.findUsersRole(user.getId());
+            user.setRoles(usersRoles);
+
             return user;
         }
     }
