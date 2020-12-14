@@ -31,7 +31,12 @@
     <tr>
         <td><%= station.getId()  %></td>
         <td><%= station.getName() %></td>
-        <td><a href="/deleteStation">Delete</a></td>
+        <td>
+            <form action="deleteStation">
+                <input type="hidden" name="stationId" value="<%=station.getId()%>" />
+                <input type="submit" value="Delete">
+            </form>
+        </td>
     </tr>
     <%
             }

@@ -42,12 +42,13 @@ public class StationService {
             if (!station) {
                 throw new StationNotFoundException("Station with id : " + stationId + " not found");
             }
+
+            List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
+
             boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(stationId);
             if (!trainRouteIstrue) {
                 throw new TrainRouteNotFoundException("Train Routes with station : " + stationId + "  not found");
             }
-
-            List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
 
             for (TrainRoute trainRoute : listOfRoutesByStation) {
                 boolean isDeleted = trainTripDAO.deleteAllTrainTripsByRouteId(trainRoute.getId());
@@ -83,7 +84,7 @@ public class StationService {
     }
 
     public List<Station> getAllStation() {
-        List<Station> listOfStation;
+        List<Station> listOfStation = new ArrayList<>();
         try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection())) {
             listOfStation = stationDAO.getAll();
         }

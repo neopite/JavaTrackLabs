@@ -79,14 +79,14 @@ public class StationDAOImpl extends StationDAO {
     }
 
     public boolean deleteByKey(Long key) {
-        ResultSet resultSet = null;
+        int updated = 0 ;
         try (PreparedStatement preparedStatement = getStatement(DELETE_STATION_BY_ID)) {
             preparedStatement.setLong(1, key);
-            resultSet = preparedStatement.executeQuery();
+             updated = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return true;
+        return updated != 0;
     }
 
     public List<Station> getAll() {

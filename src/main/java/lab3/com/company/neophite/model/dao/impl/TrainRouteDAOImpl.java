@@ -79,14 +79,15 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
 
     @Override
     public boolean deleteAllRoutesWithStationId(long stationId) {
-        boolean isExecuted = false;
+        int isExecuted = 0;
         try(PreparedStatement preparedStatement = getStatement(DELETE_ROUTES_BY_STATION_ID)) {
             preparedStatement.setLong(1, stationId);
-            isExecuted = preparedStatement.execute();
+            preparedStatement.setLong(2, stationId);
+            isExecuted = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return isExecuted;
+        return isExecuted != 0;
     }
 
     @Override
@@ -98,7 +99,6 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
-
                 listOfRoutes.add(trainRoute);
             }
         }catch (SQLException sqlException){

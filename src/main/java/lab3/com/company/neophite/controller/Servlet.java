@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Servlet extends HttpServlet {
@@ -35,4 +36,5 @@ public class Servlet extends HttpServlet {
             req.getRequestDispatcher(result).forward(req, resp);
         }
     }
+
 }

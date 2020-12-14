@@ -23,8 +23,8 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
             "         left join trains t on train_trip.train = t.id_train";
 
     private final String FIND_TRAIN_TRIP_BY_ID = FIND_ALL + " where id_train_trip=? and train_trip.isActive=true";
-    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + table + " set train_trip.isActive=false where id_train=?";
-    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set train_trip.isActive=false where train_route=?";
+    private final String DELETE_TRAIN_TRIPS_BY_ID = "update " + table + " set isActive=false where id_train_trip=?";
+    private final String DELETE_TRIPS_BY_ROUTE_ID = "update " + table + " set isActive=false where train_route=?";
     private final String GET_ALL_TRIPS = FIND_ALL+ " where isActive=true";
     private final String FIND_TRAIN_TRIPS_BY_ROUTE = FIND_ALL + " where train_route=? and train_trip.isActive=true";
     private final String UPDATE_TRAIN_TRIP_SEATS = "update train_trip set available_seats=? where id_train_trip=?";
@@ -52,13 +52,14 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
 
     @Override
     public boolean deleteAllTrainTripsByRouteId(long routeId) {
+        int executed = 0;
         try (PreparedStatement preparedStatement = getStatement(DELETE_TRIPS_BY_ROUTE_ID)) {
             preparedStatement.setLong(1, routeId);
-            return preparedStatement.execute();
+            executed = preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return false;
+        return executed!=0;
     }
 
     @Override
