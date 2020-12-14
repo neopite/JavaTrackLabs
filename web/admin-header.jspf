@@ -1,0 +1,14 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Stami
+  Date: 14.12.2020
+  Time: 17:49
+  To change this template use File | Settings | File Templates.
+--%>
+
+<div>
+    <h1>ADMIN BAR</h1>
+    <a href="/getAdminPage">Station managing</a>
+</div>
+
+

@@ -22,7 +22,7 @@ public class UserDAOImpl extends UserDAO {
     private final String CREATE_QUERY = "insert into " + table +
             " (username,password,name,age,email) values(?,?,?,?,?)";
     private final String FIND_ALL = "select * from users left join users_roles ur on ur.user_id = users.id";
-    private final String FIND_USER_BY_USERNAME = "select * from " + table + " where username='?'";
+    private final String FIND_USER_BY_USERNAME = "select * from " + table + " where username=?";
     private final String FIND_USER_BY_ID = "select * from " +table+ " where id=?";
     private final String DELETE_USER_BY_ID = "delete from " + table + " where id=?";
     private final String GET_ALL_USERS = "select* from " + table;

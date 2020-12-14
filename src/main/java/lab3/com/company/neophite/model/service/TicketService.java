@@ -31,6 +31,7 @@ public class TicketService {
              TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(transactionConnection);
              TicketDAO ticketDAO = daoFactory.createTicketDAO(transactionConnection)
         ) {
+
             transactionConnection.setAutoCommit(false);
             float trainTripPrice = ticket.getTrainTripId().getPrice();
             float usersMoney = ticket.getUserId().getMoney();

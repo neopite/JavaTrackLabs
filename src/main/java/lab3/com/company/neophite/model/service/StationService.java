@@ -16,6 +16,7 @@ import lab3.com.company.neophite.model.exception.TrainTripNotFoundException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationService {
@@ -79,5 +80,13 @@ public class StationService {
             station = stationDAO.updateStation(id, newStationName);
         }
         return station;
+    }
+
+    public List<Station> getAllStation() {
+        List<Station> listOfStation;
+        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection())) {
+            listOfStation = stationDAO.getAll();
+        }
+        return listOfStation;
     }
 }
