@@ -76,6 +76,13 @@
             }
         %>
     </table>
+    <%if(request.getAttribute("error")!=null) {%>
+    <p class="error"><%=request.getAttribute("error")%></p>
+    <%}%>
+
+        <%if(request.getAttribute("errorMoney")!=null) {%>
+    <p class="error"><%=request.getAttribute("errorMoney")%></p>
+        <%}%>
 </div>
 <div>
 

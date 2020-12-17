@@ -21,7 +21,11 @@ public class LoginCommand implements Command {
         if(user!=null){
             if(user.getPasswd().equalsIgnoreCase(request.getParameter("password"))){
                 httpSession.setAttribute("user",user);
+                return "/index.jsp";
             }
+        }else{
+            request.setAttribute("error","Bad credentials");
+            return "/login.jsp";
         }
         return "/index.jsp";
     }

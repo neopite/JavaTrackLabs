@@ -23,9 +23,11 @@ public class UserService {
              RoleDAOImpl roleDAO = daoFactory.createRoleDAO(basicConnectionPool.getConnection())
         ) {
             User user = userDAO.findUserByUsername(username);
+            if(user==null){
+                return null;
+            }
             List<Role> usersRoles = roleDAO.findUsersRole(user.getId());
             user.setRoles(usersRoles);
-
             return user;
         }
     }

@@ -5,6 +5,7 @@ import lab3.com.company.neophite.model.dao.StationDAO;
 import lab3.com.company.neophite.model.dao.TrainRouteDAO;
 import lab3.com.company.neophite.model.dao.TrainTripDAO;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab3.com.company.neophite.model.entity.Station;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 
@@ -25,10 +26,13 @@ public class TrainTripService {
              TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection());
              TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())
         ) {
-            long firstStationId = stationDAO.findStationByName(first).getId();
-            long secondStationId = stationDAO.findStationByName(second).getId();
+            Station stationFrom = stationDAO.findStationByName(first);
+            Station stationTo = stationDAO.findStationByName(second);
+            if (stationTo ==null || stationFrom == null){
+                return new ArrayList<>();
+            }
             List<TrainRoute> listOFTrainRoutesBetweenTwoStations =
-                    trainRouteDAO.getTrainRoutesBetweenTwoStations(firstStationId, secondStationId);
+                    trainRouteDAO.getTrainRoutesBetweenTwoStations(stationFrom.getId(), stationTo.getId());
             List<TrainTrip> listOfTrainsTrip = new ArrayList<>();
             for (int itter = 0; itter < listOFTrainRoutesBetweenTwoStations.size(); itter++) {
                 listOfTrainsTrip.addAll(trainTripDAO.findTrainTripsByRoute(

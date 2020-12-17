@@ -44,7 +44,6 @@ public class UserDAOImpl extends UserDAO {
             throwables.printStackTrace();
         }
         return findedUser;
-
     }
 
     public boolean updateUsersMoney(long userId , float currentMoney){

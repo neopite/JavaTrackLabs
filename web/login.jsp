@@ -9,7 +9,11 @@
 <html>
 <head>
     <title>Login Page</title>
+    <style>
+        <%@include file="/css/mainPage.css"%>
+    </style>
 </head>
+<div class="center">
 <body>
 <h1>Login Page</h1>
 <form action="login" method="post">
@@ -17,5 +21,9 @@
     <input type="password" name="password" placeholder="Password">
     <input type="submit" value="Login">
 </form>
+<%if(request.getAttribute("error")!=null){ %>
+<p class="error"><%= request.getAttribute("error")%></p>
+<%}%>
 </body>
+</div>
 </html>
