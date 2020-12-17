@@ -66,8 +66,8 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
     public boolean updateTrainTripAvailableSeats(long trainTripId, int seatsAvailable) {
         boolean executed = false;
         try(PreparedStatement preparedStatement = getStatement(UPDATE_TRAIN_TRIP_SEATS)) {
-            preparedStatement.setLong(1,trainTripId);
-            preparedStatement.setInt(2,seatsAvailable);
+            preparedStatement.setLong(1,seatsAvailable);
+            preparedStatement.setLong(2,trainTripId);
             return executed = preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

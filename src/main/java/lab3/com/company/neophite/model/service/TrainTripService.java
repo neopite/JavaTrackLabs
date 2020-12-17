@@ -40,9 +40,9 @@ public class TrainTripService {
     }
 
     public List<TrainTrip> getAllTripsFromTheStation(String startStation) {
-        try(StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
-            TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection());
-            TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection())
+        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
+             TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection());
+             TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection())
         ) {
             long startStationId = stationDAO.findStationByName(startStation).getId();
             List<TrainRoute> allRoutesFromTheCurrentStation = trainRouteDAO.getTrainRoutesByFirstStation(startStationId);
@@ -67,5 +67,13 @@ public class TrainTripService {
             }
             return allTrips;
         }
+    }
+
+    public TrainTrip findTrainTripById(long id) {
+        TrainTrip trainTrip;
+        try (TrainTripDAO trainTripDAO = DAOFactory.getDaoFactory().createTrainTripDAO(basicConnectionPool.getConnection())) {
+            trainTrip = trainTripDAO.findByKey(id);
+        }
+        return trainTrip;
     }
 }

@@ -12,6 +12,7 @@ import lab3.com.company.neophite.model.exception.NotMuchMoneyException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TicketService {
 
@@ -41,7 +42,10 @@ public class TicketService {
             boolean freeSeats = ticket.getTrainTripId().getAvailableSeats() != 0;
             if (!freeSeats) {
                 throw new NoFreeSeatException("No free places");
-            }else trainTripDAO.updateTrainTripAvailableSeats(ticket.getTrainTripId().getId(),ticket.getTrainTripId().getAvailableSeats()-1);
+            }else {
+                trainTripDAO.updateTrainTripAvailableSeats( (int) ticket.getTrainTripId().getId(),ticket.getTrainTripId().getAvailableSeats()-1);
+            }
+            ticket.setPlace(ticket.getTrainTripId().getAvailableSeats());
             ticketDAO.create(ticket);
             transactionConnection.commit();
             transactionConnection.setAutoCommit(true);
@@ -53,5 +57,12 @@ public class TicketService {
                 sqlException.printStackTrace();
             }
         }
+    }
+    public List<Ticket> getAllTicketsByUserId(long userId){
+        List<Ticket> listOfTickets ;
+        try(TicketDAO ticketDAO = DAOFactory.getDaoFactory().createTicketDAO(basicConnectionPool.getConnection())){
+            listOfTickets = ticketDAO.findTicketsByUsersId(userId);
+        }
+        return listOfTickets;
     }
 }

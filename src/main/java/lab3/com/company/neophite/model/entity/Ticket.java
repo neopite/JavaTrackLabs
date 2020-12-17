@@ -22,6 +22,11 @@ public class Ticket {
         this.place = place;
     }
 
+    public Ticket(User userId, TrainTrip trainTripId) {
+        this.userId = userId;
+        this.trainTripId = trainTripId;
+    }
+
     public long getId() {
         return id;
     }

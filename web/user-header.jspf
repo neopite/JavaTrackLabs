@@ -10,6 +10,8 @@
 <head>
     <title>Title</title>
     <h1>HELLO , <%=((User) request.getSession().getAttribute("user")).getUsername()%>
+        <h1>My Tickets</h1>
+        <a href="/getTickets">Look My Tickets</a>
     </h1>
     <form action="logout">
         <input type="submit" value="logout">

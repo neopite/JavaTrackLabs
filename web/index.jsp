@@ -1,6 +1,7 @@
 <%@ page import="lab3.com.company.neophite.model.entity.TrainTrip" %>
 <%@ page import="java.util.List" %>
-<%@ page import="lab3.com.company.neophite.model.entity.User" %><%--
+<%@ page import="lab3.com.company.neophite.model.entity.User" %>
+<%@ page import="lab3.com.company.neophite.model.entity.Role" %><%--
   Created by IntelliJ IDEA.
   User: Stami
   Date: 01.12.2020
@@ -18,9 +19,10 @@
 <div class="center">
     <% if (request.getSession().getAttribute("user") != null) {%>
     <%@include file="user-header.jspf" %>
-    <% } else if (1 == 1) { %>
+    <%if (((User)(request.getSession().getAttribute("user"))).getRoles().contains(new Role("Admin"))) { %>
     <%@include file="admin-header.jspf" %>
-    <% } else { %>
+    <% } %>
+    <% } else  { %>
     <%@include file="guest-header.jspf" %>
     <%} %>
     <body>
@@ -42,9 +44,7 @@
             <td>Available seats</td>
             <% if
             (request.getSession().getAttribute("user") != null) { %>
-            <td>
-                <button>Buy</button>
-            </td>
+
             <% }%>
         </tr>
         <%
@@ -67,7 +67,7 @@
             <% if (request.getSession().getAttribute("user") != null
             ) { %>
             <td>
-                <button>Buy</button>
+                <a href="/buyTicket?trainTrip=<%=trainTrip.getId()%>">Buy Ticket</a>
             </td>
             <% }%>
         </tr>

@@ -24,4 +24,9 @@ public class ServiceFactoryImpl extends ServiceFactory {
     public TrainTripService createTrainTripService() {
         return new TrainTripService(DAOFactory.getDaoFactory());
     }
+
+    @Override
+    public TicketService createTicketService() {
+        return new TicketService(DAOFactory.getDaoFactory());
+    }
 }

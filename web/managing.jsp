@@ -32,10 +32,10 @@
         <td><%= station.getId()  %></td>
         <td><%= station.getName() %></td>
         <td>
-            <form action="deleteStation">
-                <input type="hidden" name="stationId" value="<%=station.getId()%>" />
-                <input type="submit" value="Delete">
-            </form>
+            <a href="/deleteStation?stationId=<%=station.getId()%>">Delete</a>
+        </td>
+        <td>
+            <a href="/editStation?stationId=<%=station.getId()%>">Edit</a>
         </td>
     </tr>
     <%

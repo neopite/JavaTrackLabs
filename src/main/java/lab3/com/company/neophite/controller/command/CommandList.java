@@ -10,7 +10,10 @@ public enum CommandList {
     LOGOUT(new LogoutCommand()),
     ADD_STATION(new AddStationCommand(ServiceFactory.getInstance().createStationService())),
     GET_ALL_STATIONS(new GetManipulationPageCommand(ServiceFactory.getInstance().createStationService())),
-    DELETE_STATION(new DeleteStationCommand(ServiceFactory.getInstance().createStationService()));
+    DELETE_STATION(new DeleteStationCommand(ServiceFactory.getInstance().createStationService())),
+    EDIT_STATION(new EditStationCommand(ServiceFactory.getInstance().createStationService())),
+    BUY_TICKET(new BuyTicketCommand(ServiceFactory.getInstance().createTicketService(),ServiceFactory.getInstance().createTrainTripService())),
+    GET_ALL_USERS_TICKETS(new GetUsersTicketsCommand(ServiceFactory.getInstance().createTicketService()));
 
     private Command command;
     private CommandList(Command command){

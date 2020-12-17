@@ -21,4 +21,6 @@ public abstract class ServiceFactory {
 
     public abstract TrainTripService createTrainTripService();
 
+    public abstract TicketService createTicketService();
+
 }
