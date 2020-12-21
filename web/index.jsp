@@ -1,14 +1,15 @@
 <%@ page import="lab3.com.company.neophite.model.entity.TrainTrip" %>
 <%@ page import="java.util.List" %>
-<%@ page import="lab3.com.company.neophite.model.entity.User" %>
-<%@ page import="lab3.com.company.neophite.model.entity.Role" %><%--
+<%@ page import="lab3.com.company.neophite.model.entity.Role" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   Created by IntelliJ IDEA.
   User: Stami
   Date: 01.12.2020
   Time: 21:55
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Залізнична касса</title>
@@ -30,11 +31,12 @@
     <form action="trips" method="post">
         <input type="text" name="fromStation" placeholder="From">
         <input type="text" name="toStation" placeholder="To">
+        <input type="date" name="dateFrom">
+        <input type="date" name="dateTo">
         <input type="submit" value="Find">
     </form>
     <table border="1">
-        <% if
-        (request.getAttribute("trips") != null) {%>
+        <% if (request.getAttribute("trips") != null) {%>
         <tr>
             <td> Trip NO</td>
             <td>From station</td>
@@ -54,9 +56,9 @@
         <tr>
             <td><%= trainTrip.getId()  %>
             </td>
-            <td><%= trainTrip.getTraintRoute().getStartStation().getName() %>
+            <td><%= trainTrip.getTrainRoute().getStartStation().getName() %>
             </td>
-            <td><%= trainTrip.getTraintRoute().getFinishStation().getName() %>
+            <td><%= trainTrip.getTrainRoute().getFinishStation().getName() %>
             </td>
             <td><%= trainTrip.getPrice() %>
             </td>
@@ -76,13 +78,10 @@
             }
         %>
     </table>
-    <%if(request.getAttribute("error")!=null) {%>
-    <p class="error"><%=request.getAttribute("error")%></p>
-    <%}%>
 
-        <%if(request.getAttribute("errorMoney")!=null) {%>
-    <p class="error"><%=request.getAttribute("errorMoney")%></p>
-        <%}%>
+    <p class="error">${error}</p>
+    <p class="error">${dateError}</p>
+    <p class="error">${errorMoney}</p>
 </div>
 <div>
 

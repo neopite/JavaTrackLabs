@@ -19,7 +19,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String FIND_BY_TRAIN_ROUTE_ID = FIND_ALL + " where id_train_route=? and trains_route.isActive=true";
     private final String FIND_BY_FIRST_STATION = FIND_ALL + " where station_start=? and trains_route.isActive=true";
     private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and trains_route.isActive=true";
-    private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and trains_route.isActive=true";
+    private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and (start_date>=? and start_date<=?) and trains_route.isActive=true";
     private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and trains_route.isActive=true";
     private final String DELETE_ROUTE_BY_ID = "update " + table + "set isActive=false where id_train_route=?  ";
     private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ " set isActive=false where station_start=? or station_end=?";
@@ -60,15 +60,16 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     }
 
     @Override
-    public List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second) {
+    public List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second,Date from,Date to) {
         List<TrainRoute> listOfRoutes = new ArrayList<>();
         try(PreparedStatement preparedStatement = getStatement(FIND_ROUTES_BETWEEN_TWO_STATION)){
             preparedStatement.setLong(1,first);
             preparedStatement.setLong(2,second);
+            preparedStatement.setDate(3,from);
+            preparedStatement.setDate(4,to);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);
-
                 listOfRoutes.add(trainRoute);
             }
         }catch (SQLException sqlException){

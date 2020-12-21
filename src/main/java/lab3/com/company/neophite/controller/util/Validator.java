@@ -2,6 +2,7 @@ package lab3.com.company.neophite.controller.util;
 
 import lab3.com.company.neophite.model.entity.User;
 
+import java.sql.Date;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -18,6 +19,13 @@ public class Validator {
             return;
         }
         throw new CustomException("Bad station naming");
+    }
+
+    public static void checkDateSeq(Date dateFrom, Date dateTo){
+        if(dateFrom.before(dateTo)){
+         return;
+        }
+        throw new CustomException("Invalid Date Input");
     }
 
 }

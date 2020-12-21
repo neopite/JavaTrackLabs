@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Managing</title>
@@ -19,30 +21,26 @@
 </form>
 <br>
 <div class="center">
-<h1>List of stations</h1>
+    <h1>List of stations</h1>
 
-<table border="1">
-    <% if (request.getAttribute("stations") != null) {%>
-    <tr>
-        <td>No station</td>
-        <td>Station name</td>
-    </tr>
-    <%for (Station station : (List<Station>) request.getAttribute("stations")) { %>
-    <tr>
-        <td><%= station.getId()  %></td>
-        <td><%= station.getName() %></td>
-        <td>
-            <a href="/deleteStation?stationId=<%=station.getId()%>">Delete</a>
-        </td>
-        <td>
-            <a href="/editStation?stationId=<%=station.getId()%>">Edit</a>
-        </td>
-    </tr>
-    <%
-            }
-        }
-    %>
-</table>
+    <table border="1">
+        <tr>
+            <td>No station</td>
+            <td>Station name</td>
+        </tr>
+        <c:forEach var="station" items="${stations}">
+        <tr>
+            <td><c:out value="${station.id}"/></td>
+            <td><c:out value="${station.name}"/></td>
+            <td>
+                <a href="/deleteStation?stationId=${station.id}">Delete</a>
+            </td>
+            <td>
+                <a href="/editStation?stationId=${station.id}">Edit</a>
+            </td>
+        </tr>
+        </c:forEach>
+    </table>
 </div>
 </body>
 </html>

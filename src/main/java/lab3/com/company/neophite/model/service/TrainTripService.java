@@ -9,6 +9,7 @@ import lab3.com.company.neophite.model.entity.Station;
 import lab3.com.company.neophite.model.entity.TrainRoute;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class TrainTripService {
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
-    public List<TrainTrip> getTrainTripsBetweenTwoStations(String first, String second) {
+    public List<TrainTrip> getTrainTripsBetweenTwoStations(String first, String second, Date from, Date to) {
         try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
              TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection());
              TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())
@@ -32,7 +33,7 @@ public class TrainTripService {
                 return new ArrayList<>();
             }
             List<TrainRoute> listOFTrainRoutesBetweenTwoStations =
-                    trainRouteDAO.getTrainRoutesBetweenTwoStations(stationFrom.getId(), stationTo.getId());
+                    trainRouteDAO.getTrainRoutesBetweenTwoStations(stationFrom.getId(), stationTo.getId(),from,to);
             List<TrainTrip> listOfTrainsTrip = new ArrayList<>();
             for (int itter = 0; itter < listOFTrainRoutesBetweenTwoStations.size(); itter++) {
                 listOfTrainsTrip.addAll(trainTripDAO.findTrainTripsByRoute(

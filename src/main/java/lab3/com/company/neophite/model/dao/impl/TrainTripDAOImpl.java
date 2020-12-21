@@ -78,7 +78,7 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
     @Override
     public TrainTrip create(TrainTrip trainTrip) {
         try (PreparedStatement preparedStatement = getStatement(CREATE)) {
-            preparedStatement.setLong(1, trainTrip.getTraintRoute().getId());
+            preparedStatement.setLong(1, trainTrip.getTrainRoute().getId());
             preparedStatement.setDouble(2, trainTrip.getPrice());
             preparedStatement.setLong(3, trainTrip.getTrainId().getId());
             preparedStatement.setInt(4, trainTrip.getAvailableSeats());

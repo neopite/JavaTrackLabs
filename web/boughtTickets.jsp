@@ -8,18 +8,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
 <div class="center">
-<h1>All bought tickets of user :<% if(request.getAttribute("user")!=null) {%>
-    <%= ((User)(request.getAttribute("user"))).getUsername() %>
-    <% }%>
+<h1>All bought tickets of user : <c:out value="${user.name}"/>
 </h1>
     <table border="1">
-        <% if (request.getAttribute("usrTickets") != null) {%>
         <tr>
             <td>Ticket ID</td>
             <td>Train Model</td>
@@ -30,21 +29,18 @@
             <td>Price</td>
             <td>Place</td>
         </tr>
-        <%for (Ticket ticket : (List<Ticket>) request.getAttribute("usrTickets")) { %>
+        <c:forEach var="ticket" items="${usrTickets}">
         <tr>
-            <td><%= ticket.getId()  %></td>
-            <td><%= ticket.getTrainTripId().getTrainId().getModel()%></td>
-            <td><%= ticket.getTrainTripId().getTraintRoute().getStartStation().getName() %></td>
-            <td><%= ticket.getTrainTripId().getTraintRoute().getStartDate()%></td>
-            <td><%= ticket.getTrainTripId().getTraintRoute().getFinishStation().getName()%></td>
-            <td><%= ticket.getTrainTripId().getTraintRoute().getFinishDate()%></td>
-            <td><%= ticket.getTrainTripId().getPrice()%></td>
-            <td><%= ticket.getPlace()%></td>
+            <td><c:out value="${ticket.id}" /></td>
+            <td><c:out value="${ticket.trainTripId.trainId.model}" /></td>
+            <td><c:out value="${ticket.trainTripId.trainRoute.startStation.name}" /></td>
+            <td><c:out value="${ticket.trainTripId.trainRoute.startDate}" /></td>
+            <td><c:out value="${ticket.trainTripId.trainRoute.finishStation.name}" /></td>
+            <td><c:out value="${ticket.trainTripId.trainRoute.finishDate}" /></td>
+            <td><c:out value="${ticket.trainTripId.price}" /></td>
+            <td><c:out value="${ticket.place}" /></td>
         </tr>
-        <%
-                }
-            }
-        %>
+        </c:forEach>
     </table>
 </div>
 </body>

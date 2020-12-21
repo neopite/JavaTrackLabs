@@ -7,6 +7,7 @@ import lab3.com.company.neophite.model.entity.TrainTrip;
 import lab3.com.company.neophite.model.service.TrainTripService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 
 public class TrainTripCommand implements Command {
@@ -27,7 +28,15 @@ public class TrainTripCommand implements Command {
         }
         String firstStation=request.getParameter("fromStation");
         String secondStation=request.getParameter("toStation");
-        List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation);
+        Date dateFrom = Date.valueOf(request.getParameter("dateFrom"));
+        Date dateTo = Date.valueOf(request.getParameter("dateTo"));
+        try{
+            Validator.checkDateSeq(dateFrom,dateTo);
+        }catch (CustomException customException){
+            request.setAttribute("dateError",customException.getMessage());
+            return "/index.jsp";
+        }
+        List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation,dateFrom,dateTo);
         request.setAttribute("trips", trainTrips);
         return "/index.jsp";
     }
