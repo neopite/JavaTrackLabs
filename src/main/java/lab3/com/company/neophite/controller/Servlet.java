@@ -26,6 +26,8 @@ public class Servlet extends HttpServlet {
         contoller.put("/admin/editStation",CommandList.EDIT_STATION);
         contoller.put("/user/buyTicket",CommandList.BUY_TICKET);
         contoller.put("/user/getTickets",CommandList.GET_ALL_USERS_TICKETS);
+        contoller.put("/admin/deleteRoute",CommandList.DELETE_ROUTE);
+        contoller.put("/admin/routesManaging",CommandList.GET_ROUTES_PAGE);
     }
 
     @Override

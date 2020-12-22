@@ -57,7 +57,7 @@
   <p class="error">${errorMoney}</p>
 </div>
 <div>
-
+<%@include file="pagination.jsp"%>
 </div>
 </body>
 </html>

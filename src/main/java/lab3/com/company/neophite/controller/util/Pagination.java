@@ -5,10 +5,8 @@ import java.util.ArrayList;
 
 public class Pagination {
     public static void pagination(HttpServletRequest req, ArrayList arr, String attributeName, int page_size){
-
         if(arr!=null) {
             if (arr.size() > page_size) {
-
                 int lastPage = (arr.size() / page_size) + 1;
                 req.setAttribute("lastPage", lastPage);
                 if (req.getParameter("page") == null) {

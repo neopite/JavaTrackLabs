@@ -41,8 +41,8 @@ public class TrainTripCommand implements Command {
             return "/jsp/home.jsp";
         }
         List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation,dateFrom,dateTo);
-        request.setAttribute("trips",trainTrips);
-        //Pagination.pagination(request, (ArrayList) trainTrips,"trips",2);
+        //request.setAttribute("trips",trainTrips);
+        Pagination.pagination(request, (ArrayList) trainTrips,"trips",1);
         return "/jsp/home.jsp";
     }
 }

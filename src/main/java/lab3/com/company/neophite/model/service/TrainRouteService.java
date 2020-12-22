@@ -11,6 +11,8 @@ import lab3.com.company.neophite.model.exception.TrainTripNotFoundException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrainRouteService {
     private final Connection transactionConnection;
@@ -27,6 +29,12 @@ public class TrainRouteService {
         try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())) {
             return trainRouteDAO.create(trainRoute);
         }
+    }
+
+    public List<TrainRoute> getAllRoutes(){
+        try (TrainRouteDAO trainTripDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())){
+                return trainTripDAO.getAll();
+            }
     }
 
     public void deleteTrainRoute(long trainRoute) {
