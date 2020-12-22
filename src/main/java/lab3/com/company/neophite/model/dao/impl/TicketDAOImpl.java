@@ -15,10 +15,10 @@ public class TicketDAOImpl extends TicketDAO {
     private TicketMapper ticketMapper = new TicketMapper();
 
     private final String table = "ticket";
-    private final String FIND_ALL = "select * from ticket \n" +
+    private final String FIND_ALL = "select * ,s.name as start_station,s2.name as end_station , s.id_station as id_start , s2.id_station as id_end from ticket \n" +
             "        left join train_trip tt on ticket.train_trip = tt.id_train_trip\n" +
             "        left join trains_route tr on tt.train_route = tr.id_train_route\n" +
-            "        left join stations s on tr.station_end = s.id_station or tr.station_start = s.id_station\n" +
+            "       left join stations s on tr.station_start = s.id_station left join stations s2 on tr.station_end = s2.id_station " +
             "        left join trains t on tt.train = t.id_train" +
             " left join users u on ticket.id_user = u.id";
 

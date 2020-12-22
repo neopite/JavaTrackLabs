@@ -15,7 +15,7 @@ public class DeleteStationCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         stationService.deleteStation(Long.parseLong(request.getParameter("stationId")));
-        return "/getAdminPage";
+        return "/admin/stationManaging";
     }
 
 }

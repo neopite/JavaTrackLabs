@@ -18,6 +18,6 @@ public class GetManipulationPageCommand implements Command {
     public String execute(HttpServletRequest request) {
         List<Station> listOfStation = stationService.getAllStation();
         request.setAttribute("stations",listOfStation);
-        return "/managing.jsp";
+        return "/jsp/admin/managing.jsp";
     }
 }

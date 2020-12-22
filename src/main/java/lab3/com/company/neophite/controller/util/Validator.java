@@ -22,7 +22,7 @@ public class Validator {
     }
 
     public static void checkDateSeq(Date dateFrom, Date dateTo){
-        if(dateFrom.before(dateTo)){
+        if((dateFrom!=null && dateTo!=null) && dateFrom.before(dateTo)){
          return;
         }
         throw new CustomException("Invalid Date Input");

@@ -1,0 +1,18 @@
+<%@ page import="lab3.com.company.neophite.model.entity.User" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<html>
+<head>
+    <title>Title</title>
+    <h1>HELLO , <c:out value="${user.id}" />
+        <h1>My Tickets</h1>
+        <a href="/user/getTickets">Look My Tickets</a>
+    </h1>
+    <form action="/logout">
+        <input type="submit" value="logout">
+    </form>
+    <hr>
+</head>
+<body>
+</body>
+</html>

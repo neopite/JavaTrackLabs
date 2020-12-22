@@ -20,7 +20,7 @@ public class RegistrationCommand implements Command {
     public String execute(HttpServletRequest request) {
         String username = request.getParameter("username");
         if (username == null) {
-            return "/reg.jsp";
+            return "/jsp/reg.jsp";
         }
         User newUser = new User(
                 request.getParameter("username"),
@@ -33,10 +33,10 @@ public class RegistrationCommand implements Command {
             Validator.checkRegistrationCredentials(newUser);
         }catch (CustomException customException) {
             request.setAttribute("error",customException.getMessage());
-            return "/reg.jsp";
+            return "/jsp/reg.jsp";
         }
         userService.createUser(newUser);
-        return "redirect:/login.jsp";
+        return "redirect:/jsp/login.jsp";
     }
 }
 

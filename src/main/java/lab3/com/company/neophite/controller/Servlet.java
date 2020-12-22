@@ -17,11 +17,11 @@ public class Servlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         contoller.put("/registration", CommandList.REGISTER);
-        contoller.put("/trips", CommandList.GET_TRIPS);
         contoller.put("/logout", CommandList.LOGOUT);
         contoller.put("/login", CommandList.LOGIN);
+        contoller.put("/trips", CommandList.GET_TRIPS);
         contoller.put("/admin/addStation",CommandList.ADD_STATION);
-        contoller.put("/admin/home",CommandList.GET_ALL_STATIONS);
+        contoller.put("/admin/stationManaging",CommandList.GET_ALL_STATIONS);
         contoller.put("/admin/deleteStation",CommandList.DELETE_STATION);
         contoller.put("/admin/editStation",CommandList.EDIT_STATION);
         contoller.put("/user/buyTicket",CommandList.BUY_TICKET);

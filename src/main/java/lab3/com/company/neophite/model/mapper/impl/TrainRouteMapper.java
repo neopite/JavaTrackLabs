@@ -12,9 +12,8 @@ public class TrainRouteMapper implements ObjectMapper<TrainRoute> {
 
     @Override
     public TrainRoute extractEntityFromTheRS(ResultSet resultSet) throws SQLException {
-        Station stationStart = stationMapper.extractEntityFromTheRS(resultSet);
-        resultSet.next();
-        Station endStation = stationMapper.extractEntityFromTheRS(resultSet);
+        Station stationStart = stationMapper.extractEntityFromTheRS(resultSet,"start_station");
+        Station endStation = stationMapper.extractEntityFromTheRS(resultSet,"end_station");
         return new TrainRoute(resultSet.getLong("id_train_route"),
                 stationStart,
                 endStation,

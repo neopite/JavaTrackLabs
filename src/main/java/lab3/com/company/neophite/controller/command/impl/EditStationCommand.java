@@ -16,10 +16,10 @@ public class EditStationCommand implements Command {
     public String execute(HttpServletRequest request) {
         if (request.getMethod().equalsIgnoreCase("GET")) {
             request.setAttribute("stationId",request.getParameter("stationId"));
-            return "/stationEdit.jsp";
+            return "/jsp/admin/stationEdit.jsp";
         } else {
             stationService.updateStation(Long.parseLong(request.getParameter("stationId")), request.getParameter("stationName"));
-            return "/getAdminPage";
+            return "/admin/stationManaging";
         }
     }
 }

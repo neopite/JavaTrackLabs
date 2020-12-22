@@ -16,10 +16,11 @@ private TrainTripMapper trainTripMapper = new TrainTripMapper();
     private final String table = "train_trip";
     private final String CREATE = "insert into " + table +
             " (train_route,price,train,available_seats) values(?,?)";
-    private final String FIND_ALL = "select id_train_trip, id_train_route, available_seats, price ,id_station,name , start_date,end_date ,id_train, model ,count_of_places\n" +
+    private final String FIND_ALL = "select id_train_trip, id_train_route,s.id_station as id_start , s2.id_station as id_end , available_seats, price , start_date,end_date ,id_train, model ,count_of_places , s.name as start_station,s2.name as end_station \n" +
             "from train_trip\n" +
             "         left join trains_route tr on train_trip.train_route = tr.id_train_route\n" +
-            "         left join stations s on tr.station_end = s.id_station or tr.station_start = s.id_station\n" +
+            "      left join stations s on  tr.station_start = s.id_station\n" +
+            "               left join stations s2 on tr.station_end = s2.id_station" +
             "         left join trains t on train_trip.train = t.id_train";
 
     private final String FIND_TRAIN_TRIP_BY_ID = FIND_ALL + " where id_train_trip=? and train_trip.isActive=true";

@@ -25,10 +25,10 @@ public class BuyTicketCommand implements Command {
         TrainTrip trainTrip = trainTripService.findTrainTripById(trainTripId);
         if(currentUser.getMoney()<trainTrip.getPrice()){
             request.setAttribute("errorMoney","Not enough money");
-            return "/index.jsp";
+            return "/jsp/home.jsp";
         }
         Ticket newTicket = new Ticket(currentUser,trainTrip);
         ticketService.createTicket(newTicket);
-        return "/index.jsp";
+        return "/jsp/home.jsp";
     }
 }

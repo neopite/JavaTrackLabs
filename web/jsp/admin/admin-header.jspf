@@ -1,0 +1,13 @@
+
+
+<div>
+    <h1>ADMIN BAR</h1>
+    <h1>Hello ADMIN</h1>
+    <a href="/admin/stationManaging">1. Station managing</a>
+    <a href="/admin/stationManaging">1. Routes managing</a>
+    <form action="logout">
+        <input type="submit" value="logout">
+    </form>
+</div>
+
+

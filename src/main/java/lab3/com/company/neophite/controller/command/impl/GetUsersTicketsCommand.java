@@ -19,6 +19,6 @@ public class GetUsersTicketsCommand implements Command {
     public String execute(HttpServletRequest request) {
         List<Ticket> listOfUsersTickets = ticketService.getAllTicketsByUserId(((User)(request.getSession().getAttribute("user"))).getId());
         request.setAttribute("usrTickets",listOfUsersTickets);
-        return "boughtTickets.jsp";
+        return "/jsp/boughtTickets.jsp";
     }
 }

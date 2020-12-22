@@ -1,0 +1,3 @@
+<header>
+    <h1>Hello guest , u can <a href="/jsp/reg.jsp">Registrate </a> or <a href="/jsp/login.jsp">Login</a></h1>
+</header>

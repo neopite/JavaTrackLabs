@@ -15,7 +15,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String table = "trains_route";
     private final String CREATE = "insert into " + table+
             " (station_start,start_date,station_end,end_date) values(?,?,?,?)";
-    private final String  FIND_ALL = "select * from trains_route left join stations s on trains_route.station_end = s.id_station or trains_route.station_start = s.id_station";
+    private final String  FIND_ALL = "select *,s.name as start_station,s2.name as end_station , s.id_station as id_start , s2.id_station as id_end  from trains_route left join stations s on trains_route.station_start = s.id_station left join stations s2 on trains_route.station_end = s2.id_station ";
     private final String FIND_BY_TRAIN_ROUTE_ID = FIND_ALL + " where id_train_route=? and trains_route.isActive=true";
     private final String FIND_BY_FIRST_STATION = FIND_ALL + " where station_start=? and trains_route.isActive=true";
     private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and trains_route.isActive=true";
