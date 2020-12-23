@@ -4,6 +4,7 @@ import lab3.com.company.neophite.controller.command.Command;
 import lab3.com.company.neophite.controller.util.CustomException;
 import lab3.com.company.neophite.controller.util.Validator;
 import lab3.com.company.neophite.model.entity.User;
+import lab3.com.company.neophite.model.exception.UserAlreadyCreatedException;
 import lab3.com.company.neophite.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,11 @@ public class RegistrationCommand implements Command {
             request.setAttribute("error",customException.getMessage());
             return "/jsp/reg.jsp";
         }
-        userService.createUser(newUser);
+        try {
+            userService.createUser(newUser);
+        } catch (UserAlreadyCreatedException e) {
+            request.setAttribute("error","User already created , please provide another credentials");
+        }
         return "redirect:/jsp/login.jsp";
     }
 }

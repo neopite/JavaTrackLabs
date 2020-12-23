@@ -1,6 +1,7 @@
 package lab3.com.company.neophite.model.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private long id;
@@ -32,6 +33,12 @@ public class User {
         this.age = age;
         this.email = email;
         this.money = money;
+    }
+
+    public User(int id, String username, String password) {
+        this.id = id;
+        this.username  = username;
+        this.passwd = password;
     }
 
     public long getId() {
@@ -108,5 +115,20 @@ public class User {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) &&
+                Objects.equals(passwd, user.passwd) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, passwd, roles);
     }
 }

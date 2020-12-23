@@ -26,7 +26,8 @@ public class BasicConnectionPool implements ConnectionPool {
     }
 
     private BasicConnectionPool() {
-
+        connectionPool = new ArrayList<>();
+        getInstance();
     }
 
     public static BasicConnectionPool getInstance() {
@@ -95,4 +96,7 @@ public class BasicConnectionPool implements ConnectionPool {
         BasicConnectionPool.dataSource = dataSource;
     }
 
+    public static void setInstance(BasicConnectionPool instance) {
+        BasicConnectionPool.instance = instance;
+    }
 }

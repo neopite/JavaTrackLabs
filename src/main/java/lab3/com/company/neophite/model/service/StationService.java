@@ -30,6 +30,11 @@ public class StationService {
         this.daoFactory = daoFactory;
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
+    public StationService() {
+       // this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
+        this.daoFactory = DAOFactory.getDaoFactory();
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
+    }
 
 
     public void deleteStation(long stationId) {

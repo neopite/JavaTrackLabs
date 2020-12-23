@@ -4,8 +4,10 @@ import lab3.com.company.neophite.model.dao.DAOFactory;
 import lab3.com.company.neophite.model.dao.UserDAO;
 import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
 import lab3.com.company.neophite.model.dao.impl.RoleDAOImpl;
+import lab3.com.company.neophite.model.dao.impl.UserDAOImpl;
 import lab3.com.company.neophite.model.entity.Role;
 import lab3.com.company.neophite.model.entity.User;
+import lab3.com.company.neophite.model.exception.UserAlreadyCreatedException;
 
 import java.util.List;
 
@@ -18,12 +20,18 @@ public class UserService {
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
+    public UserService() {
+        this.daoFactory = DAOFactory.getDaoFactory();
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
+    }
+
+
     public User findUserByUsername(String username) {
         try (UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection());
              RoleDAOImpl roleDAO = daoFactory.createRoleDAO(basicConnectionPool.getConnection())
         ) {
             User user = userDAO.findUserByUsername(username);
-            if(user==null){
+            if (user == null) {
                 return null;
             }
             List<Role> usersRoles = roleDAO.findUsersRole(user.getId());
@@ -32,25 +40,16 @@ public class UserService {
         }
     }
 
-    public boolean decreaseMoney(long userId,float money){
-        boolean executed = false;
-        try(UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection())){
-            executed = userDAO.updateUsersMoney(userId,money);
-        }
-        return executed;
-    }
 
-    public User createUser(User user){
-        System.out.println(daoFactory.toString());
-        try(UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection())){
+    public User createUser(User user) throws UserAlreadyCreatedException {
+        try (UserDAO userDAO = daoFactory.createUserDAO(basicConnectionPool.getConnection())) {
             User newUser = userDAO.findUserByUsername(user.getUsername());
-            if(newUser==null){
+            if (newUser == null) {
                 userDAO.create(user);
-                return newUser;
-            }else {
-            //    throw new Exception()
+                return user;
+            } else {
+                throw new UserAlreadyCreatedException("User with :"+user.getName()+ " us already created");
             }
         }
-        return null;
     }
 }
