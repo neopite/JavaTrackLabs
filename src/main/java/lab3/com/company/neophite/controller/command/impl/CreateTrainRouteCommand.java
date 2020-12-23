@@ -7,6 +7,7 @@ import lab3.com.company.neophite.model.service.StationService;
 import lab3.com.company.neophite.model.service.TrainRouteService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,20 +23,19 @@ public class CreateTrainRouteCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Station station1 = stationService.findStationById(Long.parseLong(request.getParameter("startStation")));
         Station station2 = stationService.findStationById(Long.parseLong(request.getParameter("endStation")));
         Date from = null;
         Date to = null;
-        SimpleDateFormat utilDate = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
         try {
             from = utilDate.parse(request.getParameter("startDate"));
             to =  utilDate.parse(request.getParameter("endDate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        java.sql.Date sqlDateFrom=  new java.sql.Date(from.getTime());
-        java.sql.Date sqlDateTo =  new java.sql.Date(to.getTime());
+        Timestamp sqlDateFrom= new Timestamp(from.getTime());
+        Timestamp sqlDateTo = new Timestamp(to.getTime());
         TrainRoute trainRoute = new TrainRoute(
                 station1,
                 station2,

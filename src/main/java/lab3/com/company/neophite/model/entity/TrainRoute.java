@@ -2,26 +2,27 @@ package lab3.com.company.neophite.model.entity;
 
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class TrainRoute {
     private long id;
     private Station startStation;
     private Station finishStation;
-    private Date startDate;
-    private Date finishDate;
+    private Timestamp startDate;
+    private Timestamp finishDate;
     private boolean isActive;
 
     public TrainRoute() {
     }
 
-    public TrainRoute(Station startStation, Station finishStation, Date startDate, Date finishDate) {
+    public TrainRoute(Station startStation, Station finishStation, Timestamp startDate, Timestamp finishDate) {
         this.startStation = startStation;
         this.finishStation = finishStation;
         this.startDate = startDate;
         this.finishDate = finishDate;
     }
 
-    public TrainRoute(long id, Station startStation, Station finishStation, Date startDate, Date finishDate) {
+    public TrainRoute(long id, Station startStation, Station finishStation, Timestamp startDate, Timestamp finishDate) {
         this.id = id;
         this.startStation = startStation;
         this.finishStation = finishStation;
@@ -62,19 +63,19 @@ public class TrainRoute {
         this.finishStation = finishStation;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate() {
+    public Timestamp getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(Timestamp finishDate) {
         this.finishDate = finishDate;
     }
 

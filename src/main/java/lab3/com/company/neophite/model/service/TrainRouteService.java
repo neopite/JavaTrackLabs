@@ -14,6 +14,7 @@ import lab3.com.company.neophite.model.exception.TrainTripNotFoundException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class TrainRouteService {
             }
     }
 
-    public void deleteTrainRoute(long trainRoute, Date from , Date to) {
+    public void deleteTrainRoute(long trainRoute) {
         try(TrainRouteDAO trainRouteDAO = DAOFactory.getDaoFactory().createTrainRouteDAO(transactionConnection);
             TrainTripDAO trainTripDAO = DAOFactory.getDaoFactory().createTrainTripDAO(transactionConnection)
         ) {
@@ -48,21 +49,18 @@ public class TrainRouteService {
 
             List<TrainTrip> trainTrips = trainTripDAO.findTrainTripsByRoute(trainRoute);
             if(trainTrips.isEmpty()){
-                trainRouteDAO.deleteByKey(trainRoute,from,to);
+                trainRouteDAO.deleteByKey(trainRoute);
                 transactionConnection.commit();
                 transactionConnection.setAutoCommit(true);
                 return;
             }
-            boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(trainRoute);
-            if (!trainRouteIstrue) {
-                throw new TrainRouteNotFoundException("Train Routes with id : " + trainRoute + "  not found");
-            }
+            trainRouteDAO.deleteByKey(trainRoute);
             boolean isDeleted = trainTripDAO.deleteAllTrainTripsByRouteId(trainRoute);
             if (!isDeleted) {
                 throw new TrainTripNotFoundException("Train trip with id of route : " + trainRoute + " not found");
             }
-
-
+            transactionConnection.commit();
+            transactionConnection.setAutoCommit(true);
         } catch (SQLException | StationNotFoundException | TrainRouteNotFoundException | TrainTripNotFoundException exception) {
             try {
                 transactionConnection.rollback();

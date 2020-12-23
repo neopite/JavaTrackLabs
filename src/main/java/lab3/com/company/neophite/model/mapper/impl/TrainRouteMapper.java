@@ -17,8 +17,8 @@ public class TrainRouteMapper implements ObjectMapper<TrainRoute> {
         return new TrainRoute(resultSet.getLong("id_train_route"),
                 stationStart,
                 endStation,
-                resultSet.getDate("start_date"),
-                resultSet.getDate("end_date")
+                resultSet.getTimestamp("start_date"),
+                resultSet.getTimestamp("end_date")
                 );
     }
 }
