@@ -18,7 +18,7 @@ public class BasicConnectionPool implements ConnectionPool {
     private static BasicConnectionPool instance = null;  // lazy loading
     private static List<Connection> connectionPool;
     private static List<Connection> usedConnections = new ArrayList<Connection>();
-    private static final int INITIAL_POOL_SIZE = 10;
+    private static final int INITIAL_POOL_SIZE = 20;
 
 
     private BasicConnectionPool(List<Connection> newPool) {

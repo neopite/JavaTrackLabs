@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Create new Station</h1>
-<form action="/admin/addStation">
+<form action="/admin/addStation" method="post">
     <input type="text" name="station_name" placeholder="Name of the new Station">
     <input type="submit" value="Submit">
 </form>

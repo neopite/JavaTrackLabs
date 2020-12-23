@@ -9,6 +9,7 @@ public class Pagination {
             if (arr.size() > page_size) {
                 int lastPage = (arr.size() / page_size) + 1;
                 req.setAttribute("lastPage", lastPage);
+                String str = req.getParameter("page");
                 if (req.getParameter("page") == null) {
                     req.setAttribute(attributeName, arr.subList(0, page_size));
                     req.setAttribute("page", 1);

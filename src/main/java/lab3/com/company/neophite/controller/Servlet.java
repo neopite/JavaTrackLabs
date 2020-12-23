@@ -28,6 +28,8 @@ public class Servlet extends HttpServlet {
         contoller.put("/user/getTickets",CommandList.GET_ALL_USERS_TICKETS);
         contoller.put("/admin/deleteRoute",CommandList.DELETE_ROUTE);
         contoller.put("/admin/routesManaging",CommandList.GET_ROUTES_PAGE);
+        contoller.put("/admin/routeCreationPage",CommandList.GET_ROUTE_CREATION_PAGE);
+        contoller.put("/admin/createRoute",CommandList.CREATE_TRAIN_ROUTE);
     }
 
     @Override

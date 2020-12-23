@@ -13,8 +13,10 @@ public enum CommandList {
     DELETE_STATION(new DeleteStationCommand(ServiceFactory.getInstance().createStationService())),
     EDIT_STATION(new EditStationCommand(ServiceFactory.getInstance().createStationService())),
     DELETE_ROUTE(new DeleteTrainRouteCommand(ServiceFactory.getInstance().createTrainRouteService())),
-    GET_ROUTES_PAGE(new GetAllRoutesCommand(ServiceFactory.getInstance().createTrainRouteService())),
+    GET_ROUTES_PAGE(new GetAllRoutesCommand(ServiceFactory.getInstance().createTrainRouteService(),ServiceFactory.getInstance().createStationService())),
+    GET_ROUTE_CREATION_PAGE(new GetRouteCreationPageCommand(ServiceFactory.getInstance().createStationService())),
     BUY_TICKET(new BuyTicketCommand(ServiceFactory.getInstance().createTicketService(),ServiceFactory.getInstance().createTrainTripService())),
+    CREATE_TRAIN_ROUTE(new CreateTrainRouteCommand(ServiceFactory.getInstance().createTrainRouteService(), ServiceFactory.getInstance().createStationService())),
     GET_ALL_USERS_TICKETS(new GetUsersTicketsCommand(ServiceFactory.getInstance().createTicketService()));
 
     private Command command;

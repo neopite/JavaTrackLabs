@@ -44,7 +44,11 @@ public class StationService {
             }
 
             List<TrainRoute> listOfRoutesByStation = trainRouteDAO.getAllRoutesByStation(stationId);
-
+            if(listOfRoutesByStation.isEmpty()){
+                transactionConnection.commit();
+                transactionConnection.setAutoCommit(true);
+                return;
+            }
             boolean trainRouteIstrue = trainRouteDAO.deleteAllRoutesWithStationId(stationId);
             if (!trainRouteIstrue) {
                 throw new TrainRouteNotFoundException("Train Routes with station : " + stationId + "  not found");
@@ -65,6 +69,14 @@ public class StationService {
                 exception.printStackTrace();
             }
         }
+    }
+
+    public Station findStationById(long id){
+        Station station;
+        try(StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection())){
+            station = stationDAO.findByKey(id);
+        }
+        return station;
     }
 
     public Station addStation(Station station) {

@@ -13,24 +13,24 @@
 
 <c:when test="${page==1}">
     <c:if test="${lastPage==page+1}">
-        <p><c:out value="${page}" /> <a href="${href}&page=${page+1}">next</a> </p>
+        <p><c:out value="${page}" /> <a href="/trips?page=${page+1}">next</a> </p>
     </c:if>
     <c:if test="${lastPage!=page+1}">
-        <p><c:out value="${page}" /> <a href="${href}&page=${page+1}">next</a> ... <a href="${href}&page=${lastPage}">last</a></p>
+        <p><c:out value="${page}" /> <a href="/trips?page=${page+1}">next</a> ... <a href="/trips?page=${lastPage}">last</a></p>
     </c:if>
 </c:when>
 
 <c:when test="${page==lastPage}">
     <c:if test="${1==page-1}">
-        <p><a href="${href}&page=${page-1}">prev</a> <c:out value="${page}"/></p>
+        <p><a href="/trips?page=${page-1}">prev</a> <c:out value="${page}"/></p>
     </c:if>
     <c:if test="${1!=page-1}">
-        <p><a href="${href}">first</a> ... <a href="${href}&page=${page-1}">prev</a> <c:out value="${page}" /> </p>
+        <p><a href="/trips">first</a> ... <a href="/trips?page=${page-1}">prev</a> <c:out value="${page}" /> </p>
     </c:if>
 </c:when>
 
 <c:otherwise>
-<p><a href="${href}">first</a> ... <a href="${href}&page=${page-1}">prev</a> <c:out value="${page}" /> <a href="${href}&page=${page+1}">next</a> ... <a href="${href}&page=${lastPage}">last</a>
+<p><a href="${href}">first</a> ... <a href="${href}?page=${page-1}">prev</a> <c:out value="${page}" /> <a href="${href}?page=${page+1}">next</a> ... <a href="${href}?page=${lastPage}">last</a>
     </c:otherwise>
 
     </c:choose>

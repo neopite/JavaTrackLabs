@@ -18,6 +18,6 @@ public class AddStationCommand implements Command {
         String newStation = request.getParameter("station_name");
         Station station = new Station(newStation);
         stationService.addStation(station);
-        return "/getAdminPage";
+        return "/admin/stationManaging";
     }
 }

@@ -9,10 +9,7 @@
 </head>
 <body>
 <h1>Create new Station</h1>
-<form action="/admin/addStation">
-    <input type="text" name="station_name" placeholder="Name of the new Station">
-    <input type="submit" value="Submit">
-</form>
+<a href="/admin/routeCreationPage">Create Train Route</a>
 <br>
 <div class="center">
     <h1>List of stations</h1>
@@ -33,11 +30,9 @@
                 <td><c:out value="${route.finishStation}"/></td>
                 <td><c:out value="${route.finishDate}"/></td>
                 <td>
-                    <a href="/admin/deleteRoute?stationId=${route.id}">Delete</a>
+                    <a href="/admin/deleteRoute?routeId=${route.id}&startDate=${route.startDate}&endDate=${route.finishDate}">Delete</a>
                 </td>
-                <td>
-                    <a href="/admin/editRoute?stationId=${route.id}">Edit</a>
-                </td>
+
             </tr>
         </c:forEach>
     </table>

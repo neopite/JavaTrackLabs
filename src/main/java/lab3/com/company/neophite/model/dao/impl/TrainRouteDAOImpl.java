@@ -21,7 +21,7 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     private final String FIND_BY_END_STATION = FIND_ALL + " where station_end=? and trains_route.isActive=true";
     private final String FIND_ROUTES_BETWEEN_TWO_STATION = FIND_ALL +" where station_start=? and station_end=? and (start_date>=? and start_date<=?) and trains_route.isActive=true";
     private final String FIND_ALL_ROUTES_BY_STATION = FIND_ALL +" where (station_start=? or station_end=?) and trains_route.isActive=true";
-    private final String DELETE_ROUTE_BY_ID = "update " + table + "set isActive=false where id_train_route=?  ";
+    private final String DELETE_ROUTE_BY_ID = "update " + table + " set isActive=false where id_train_route=? and (start_date=? and end_date=? )";
     private final String DELETE_ROUTES_BY_STATION_ID = "update " + table+ " set isActive=false where station_start=? or station_end=?";
     private final String GET_ALL_TRAIN_ROUTES = FIND_ALL+ " where trains_route.isActive=true";
 
@@ -137,10 +137,24 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
         return trainRoute;
     }
 
+    @Override
     public boolean deleteByKey(Long key) {
         boolean isExecuted = false;
         try(        PreparedStatement preparedStatement = getStatement(DELETE_ROUTE_BY_ID)) {
             preparedStatement.setLong(1, key);
+            isExecuted = preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return isExecuted;
+    }
+
+    public boolean deleteByKey(Long key,Date from,Date to) {
+        boolean isExecuted = false;
+        try(        PreparedStatement preparedStatement = getStatement(DELETE_ROUTE_BY_ID)) {
+            preparedStatement.setLong(1, key);
+            preparedStatement.setDate(2, from);
+            preparedStatement.setDate(3, to);
             isExecuted = preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

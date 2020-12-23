@@ -21,10 +21,15 @@ public class TrainTripCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        if(request.getParameter("page")!=null){
+            Pagination.pagination(request, (ArrayList)request.getSession(false).getAttribute("trips"),"trips",3);
+            return "/jsp/home.jsp";
+        }
         try {
             Validator.checkStationName( request.getParameter("fromStation"));
             Validator.checkStationName( request.getParameter("toStation"));
         } catch (CustomException customException) {
+            Pagination.pagination(request, (ArrayList)request.getSession(false).getAttribute("trips"),"trips",3);
             request.setAttribute("error",customException.getMessage());
             return "/jsp/home.jsp";
         }
@@ -37,12 +42,14 @@ public class TrainTripCommand implements Command {
             dateTo = Date.valueOf(request.getParameter("dateTo"));
             Validator.checkDateSeq(dateFrom,dateTo);
         }catch (CustomException | IllegalArgumentException customException){
+            Pagination.pagination(request, (ArrayList)request.getSession(false).getAttribute("trips"),"trips",3);
             request.setAttribute("dateError","Bad Date Input");
             return "/jsp/home.jsp";
         }
         List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation,dateFrom,dateTo);
         //request.setAttribute("trips",trainTrips);
-        Pagination.pagination(request, (ArrayList) trainTrips,"trips",1);
+        Pagination.pagination(request, (ArrayList) trainTrips,"trips",3);
+        request.getSession(false).setAttribute("trips",trainTrips);
         return "/jsp/home.jsp";
     }
 }
