@@ -41,6 +41,13 @@ public class User {
         this.passwd = password;
     }
 
+    public User(long id, String username, String passwd, float money) {
+        this.id = id;
+        this.username = username;
+        this.passwd = passwd;
+        this.money = money;
+    }
+
     public long getId() {
         return id;
     }

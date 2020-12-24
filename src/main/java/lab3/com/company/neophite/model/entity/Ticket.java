@@ -1,5 +1,7 @@
 package lab3.com.company.neophite.model.entity;
 
+import java.util.Objects;
+
 public class Ticket {
     private long id;
     private User userId;
@@ -57,5 +59,21 @@ public class Ticket {
 
     public void setPlace(int place) {
         this.place = place;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id &&
+                place == ticket.place &&
+                Objects.equals(userId, ticket.userId) &&
+                Objects.equals(trainTripId, ticket.trainTripId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, trainTripId, place);
     }
 }

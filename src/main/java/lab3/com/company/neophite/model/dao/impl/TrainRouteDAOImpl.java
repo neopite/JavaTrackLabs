@@ -60,13 +60,13 @@ public class TrainRouteDAOImpl extends TrainRouteDAO {
     }
 
     @Override
-    public List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second,Date from,Date to) {
+    public List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second,Timestamp from,Timestamp to) {
         List<TrainRoute> listOfRoutes = new ArrayList<>();
         try(PreparedStatement preparedStatement = getStatement(FIND_ROUTES_BETWEEN_TWO_STATION)){
             preparedStatement.setLong(1,first);
             preparedStatement.setLong(2,second);
-            preparedStatement.setDate(3,from);
-            preparedStatement.setDate(4,to);
+            preparedStatement.setTimestamp(3,from);
+            preparedStatement.setTimestamp(4,to);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 TrainRoute trainRoute = trainRouteMapper.extractEntityFromTheRS(resultSet);

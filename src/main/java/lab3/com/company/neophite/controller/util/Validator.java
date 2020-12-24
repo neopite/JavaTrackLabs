@@ -2,7 +2,8 @@ package lab3.com.company.neophite.controller.util;
 
 import lab3.com.company.neophite.model.entity.User;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Validator {

@@ -13,7 +13,7 @@ public abstract class TrainRouteDAO extends AbstractDAO<TrainRoute , Long> {
     }
     public abstract List<TrainRoute> getTrainRoutesByFirstStation(long name);
     public abstract List<TrainRoute> getTrainRoutesBySecondStation(long name);
-    public abstract List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second,Date from, Date to);
+    public abstract List<TrainRoute> getTrainRoutesBetweenTwoStations(long first, long second,Timestamp from, Timestamp to);
     public abstract boolean deleteAllRoutesWithStationId(long stationId);
     public abstract List<TrainRoute> getAllRoutesByStation(long stationId);
     public abstract boolean deleteByKey(Long key);

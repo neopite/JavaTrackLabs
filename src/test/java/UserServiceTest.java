@@ -4,6 +4,7 @@ import lab3.com.company.neophite.model.dao.impl.RoleDAOImpl;
 import lab3.com.company.neophite.model.dao.impl.UserDAOImpl;
 import lab3.com.company.neophite.model.entity.Role;
 import lab3.com.company.neophite.model.entity.User;
+import lab3.com.company.neophite.model.exception.UserAlreadyCreatedException;
 import lab3.com.company.neophite.model.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,9 +63,8 @@ public class UserServiceTest {
         assertEquals(user,userService.findUserByUsername(username));
         verify(mockRokeDao).findUsersRole((long) 1);
     }
-
     @Test
-    public void createUser_Should_throw_UserAlreadyCreatedException() {
+    public void createUser_Should_Create_New_User() throws UserAlreadyCreatedException {
         long id = 1 ;
         String username = "test123";
         String passwd = "test";
@@ -74,15 +74,12 @@ public class UserServiceTest {
         roles.add(role);
         user.setRoles(roles);
         when(mockDaoFactory.createUserDAO(mockConnection.getConnection())).thenReturn(mockUserDAO);
-        when(mockDaoFactory.createRoleDAO(mockConnection.getConnection())).thenReturn(mockRokeDao);
-        when(mockUserDAO.findUserByUsername(username)).thenReturn(user);
-        when(mockRokeDao.findUsersRole(id)).thenReturn(roles);
-        assertEquals(user,userService.findUserByUsername(username));
-        verify(mockRokeDao).findUsersRole((long) 1);
+        when(mockUserDAO.findUserByUsername(username)).thenReturn(null);
+        assertEquals(user,userService.createUser(user));
     }
-    
-    @Test
-    public void createUser_Should_Create_New_User() {
+
+    @Test(expected = UserAlreadyCreatedException.class)
+    public void createUser_Should_throw_UserAlreadyCreatedException() throws UserAlreadyCreatedException {
         long id = 1 ;
         String username = "test123";
         String passwd = "test";
@@ -92,10 +89,7 @@ public class UserServiceTest {
         roles.add(role);
         user.setRoles(roles);
         when(mockDaoFactory.createUserDAO(mockConnection.getConnection())).thenReturn(mockUserDAO);
-        when(mockDaoFactory.createRoleDAO(mockConnection.getConnection())).thenReturn(mockRokeDao);
-        when(mockUserDAO.findUserByUsername(username)).thenReturn(user);
-        when(mockRokeDao.findUsersRole(id)).thenReturn(roles);
-        assertEquals(user,userService.findUserByUsername(username));
-        verify(mockRokeDao).findUsersRole((long) 1);
+        when(mockUserDAO.findUserByUsername(user.getUsername())).thenReturn(user);
+        userService.createUser(user);
     }
 }

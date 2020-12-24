@@ -22,12 +22,17 @@ public class TicketService {
 
     public TicketService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
-        this.daoFactory = daoFactory;
+        this.daoFactory = DAOFactory.getDaoFactory();
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
+    }
+
+    public TicketService() {
+        this.daoFactory = DAOFactory.getDaoFactory();
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
 
-    public void createTicket(Ticket ticket) {
+    public Ticket createTicket(Ticket ticket) throws RuntimeException {
         try (UserDAO userDAO = daoFactory.createUserDAO(transactionConnection);
              TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(transactionConnection);
              TicketDAO ticketDAO = daoFactory.createTicketDAO(transactionConnection)
@@ -49,18 +54,21 @@ public class TicketService {
             ticketDAO.create(ticket);
             transactionConnection.commit();
             transactionConnection.setAutoCommit(true);
+            return ticket;
 
         } catch (SQLException | NotMuchMoneyException | NoFreeSeatException exception) {
             try {
                 transactionConnection.rollback();
+                throw exception;
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
         }
+        return ticket;
     }
     public List<Ticket> getAllTicketsByUserId(long userId){
         List<Ticket> listOfTickets ;
-        try(TicketDAO ticketDAO = DAOFactory.getDaoFactory().createTicketDAO(basicConnectionPool.getConnection())){
+        try(TicketDAO ticketDAO = daoFactory.createTicketDAO(basicConnectionPool.getConnection())){
             listOfTickets = ticketDAO.findTicketsByUsersId(userId);
         }
         return listOfTickets;

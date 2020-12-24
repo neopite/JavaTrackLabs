@@ -10,6 +10,7 @@ import lab3.com.company.neophite.model.entity.TrainRoute;
 import lab3.com.company.neophite.model.entity.TrainTrip;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,12 @@ public class TrainTripService {
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
-    public List<TrainTrip> getTrainTripsBetweenTwoStations(String first, String second, Date from, Date to) {
+    public TrainTripService() {
+        this.daoFactory = DAOFactory.getDaoFactory();
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
+    }
+
+    public List<TrainTrip> getTrainTripsBetweenTwoStations(String first, String second, Timestamp from, Timestamp to) {
         try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
              TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection());
              TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection())
@@ -41,36 +47,6 @@ public class TrainTripService {
                 ));
             }
             return listOfTrainsTrip;
-        }
-    }
-
-    public List<TrainTrip> getAllTripsFromTheStation(String startStation) {
-        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
-             TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection());
-             TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection())
-        ) {
-            long startStationId = stationDAO.findStationByName(startStation).getId();
-            List<TrainRoute> allRoutesFromTheCurrentStation = trainRouteDAO.getTrainRoutesByFirstStation(startStationId);
-            List<TrainTrip> allTrips = new ArrayList<>();
-            for (int itter = 0; itter < allRoutesFromTheCurrentStation.size(); itter++) {
-                allTrips.addAll(trainTripDAO.findTrainTripsByRoute(allRoutesFromTheCurrentStation.get(itter).getId()));
-            }
-            return allTrips;
-        }
-    }
-
-    public List<TrainTrip> getAllTripsToTheStation(String endStation) {
-        try (StationDAO stationDAO = daoFactory.createStationDAO(basicConnectionPool.getConnection());
-             TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(basicConnectionPool.getConnection());
-             TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(basicConnectionPool.getConnection())
-        ) {
-            long endStationId = stationDAO.findStationByName(endStation).getId();
-            List<TrainRoute> allRoutesToTheStation = trainRouteDAO.getTrainRoutesBySecondStation(endStationId);
-            List<TrainTrip> allTrips = new ArrayList<>();
-            for (int itter = 0; itter < allRoutesToTheStation.size(); itter++) {
-                allTrips.addAll(trainTripDAO.findTrainTripsByRoute(allRoutesToTheStation.get(itter).getId()));
-            }
-            return allTrips;
         }
     }
 

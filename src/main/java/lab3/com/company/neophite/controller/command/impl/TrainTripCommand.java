@@ -8,8 +8,11 @@ import lab3.com.company.neophite.model.entity.TrainTrip;
 import lab3.com.company.neophite.model.service.TrainTripService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TrainTripCommand implements Command {
@@ -35,19 +38,21 @@ public class TrainTripCommand implements Command {
         }
         String firstStation=request.getParameter("fromStation");
         String secondStation=request.getParameter("toStation");
+        SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
         Date dateFrom ;
         Date dateTo;
         try{
-            dateFrom = Date.valueOf(request.getParameter("dateFrom"));
-            dateTo = Date.valueOf(request.getParameter("dateTo"));
+            dateFrom = utilDate.parse(request.getParameter("dateFrom"));
+            dateTo =  utilDate.parse(request.getParameter("dateTo"));
             Validator.checkDateSeq(dateFrom,dateTo);
-        }catch (CustomException | IllegalArgumentException customException){
+        }catch (CustomException | ParseException |IllegalArgumentException customException){
             Pagination.pagination(request, (ArrayList)request.getSession(false).getAttribute("trips"),"trips",3);
             request.setAttribute("dateError","Bad Date Input");
             return "/jsp/home.jsp";
         }
-        List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation,dateFrom,dateTo);
-        //request.setAttribute("trips",trainTrips);
+        Timestamp sqlDateFrom= new Timestamp(dateFrom.getTime());
+        Timestamp sqlDateTo = new Timestamp(dateTo.getTime());
+        List<TrainTrip> trainTrips = trainTripService.getTrainTripsBetweenTwoStations(firstStation, secondStation,sqlDateFrom,sqlDateTo);
         Pagination.pagination(request, (ArrayList) trainTrips,"trips",3);
         request.getSession(false).setAttribute("trips",trainTrips);
         return "/jsp/home.jsp";

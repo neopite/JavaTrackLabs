@@ -19,13 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrainRouteService {
-    private final Connection transactionConnection;
+    private  Connection transactionConnection;
     private DAOFactory daoFactory ;
     private BasicConnectionPool basicConnectionPool;
 
     public TrainRouteService(DAOFactory daoFactory) {
         this.transactionConnection = BasicConnectionPool.getInstance().getConnection();
         this.daoFactory = daoFactory;
+        this.basicConnectionPool = BasicConnectionPool.getInstance();
+    }
+
+    public TrainRouteService() {
+        this.daoFactory = DAOFactory.getDaoFactory();
         this.basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
@@ -42,8 +47,8 @@ public class TrainRouteService {
     }
 
     public void deleteTrainRoute(long trainRoute) {
-        try(TrainRouteDAO trainRouteDAO = DAOFactory.getDaoFactory().createTrainRouteDAO(transactionConnection);
-            TrainTripDAO trainTripDAO = DAOFactory.getDaoFactory().createTrainTripDAO(transactionConnection)
+        try(TrainRouteDAO trainRouteDAO = daoFactory.createTrainRouteDAO(transactionConnection);
+            TrainTripDAO trainTripDAO = daoFactory.createTrainTripDAO(transactionConnection)
         ) {
             transactionConnection.setAutoCommit(false);
 
@@ -54,16 +59,20 @@ public class TrainRouteService {
                 transactionConnection.setAutoCommit(true);
                 return;
             }
-            trainRouteDAO.deleteByKey(trainRoute);
+            boolean deleted = trainRouteDAO.deleteByKey(trainRoute);
+            if(!deleted){
+                throw new TrainRouteNotFoundException("No found this trainRoute");
+            }
             boolean isDeleted = trainTripDAO.deleteAllTrainTripsByRouteId(trainRoute);
             if (!isDeleted) {
-                throw new TrainTripNotFoundException("Train trip with id of route : " + trainRoute + " not found");
+                throw new TrainTripNotFoundException("Train trips with id of route : " + trainRoute + " not found");
             }
             transactionConnection.commit();
             transactionConnection.setAutoCommit(true);
         } catch (SQLException | StationNotFoundException | TrainRouteNotFoundException | TrainTripNotFoundException exception) {
             try {
                 transactionConnection.rollback();
+                throw exception;
             } catch (SQLException throwables) {
                 exception.printStackTrace();
             }

@@ -23,8 +23,8 @@
   <form action="/trips" method="post">
     <input type="text" name="fromStation" placeholder="From">
     <input type="text" name="toStation" placeholder="To">
-    <input type="date" name="dateFrom">
-    <input type="date" name="dateTo">
+    <input type="datetime-local" name="dateFrom">
+    <input type="datetime-local" name="dateTo">
     <input type="submit" value="Find">
   </form>
   <table border="1">
