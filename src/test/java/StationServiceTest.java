@@ -1,9 +1,8 @@
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
-import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
-import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
-import lab3.com.company.neophite.model.entity.Station;
-import lab3.com.company.neophite.model.entity.User;
-import lab3.com.company.neophite.model.service.StationService;
+import lab2_5.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab2_5.com.company.neophite.model.dao.impl.DAOFactoryImpl;
+import lab2_5.com.company.neophite.model.dao.impl.StationDAOImpl;
+import lab2_5.com.company.neophite.model.entity.Station;
+import lab2_5.com.company.neophite.model.service.StationService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

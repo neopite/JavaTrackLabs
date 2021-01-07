@@ -1,4 +1,4 @@
-<%@ page import="lab3.com.company.neophite.model.entity.Station" %>
+<%@ page import="lab2_5.com.company.neophite.model.entity.Station" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

@@ -1,11 +1,11 @@
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
-import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
-import lab3.com.company.neophite.model.dao.impl.RoleDAOImpl;
-import lab3.com.company.neophite.model.dao.impl.UserDAOImpl;
-import lab3.com.company.neophite.model.entity.Role;
-import lab3.com.company.neophite.model.entity.User;
-import lab3.com.company.neophite.model.exception.UserAlreadyCreatedException;
-import lab3.com.company.neophite.model.service.UserService;
+import lab2_5.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab2_5.com.company.neophite.model.dao.impl.DAOFactoryImpl;
+import lab2_5.com.company.neophite.model.dao.impl.RoleDAOImpl;
+import lab2_5.com.company.neophite.model.dao.impl.UserDAOImpl;
+import lab2_5.com.company.neophite.model.entity.Role;
+import lab2_5.com.company.neophite.model.entity.User;
+import lab2_5.com.company.neophite.model.exception.UserAlreadyCreatedException;
+import lab2_5.com.company.neophite.model.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -63,6 +62,7 @@ public class UserServiceTest {
         assertEquals(user,userService.findUserByUsername(username));
         verify(mockRokeDao).findUsersRole((long) 1);
     }
+
     @Test
     public void createUser_Should_Create_New_User() throws UserAlreadyCreatedException {
         long id = 1 ;

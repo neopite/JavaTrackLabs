@@ -1,5 +1,5 @@
-<%@ page import="lab3.com.company.neophite.model.entity.User" %>
-<%@ page import="lab3.com.company.neophite.model.entity.Ticket" %>
+<%@ page import="lab2_5.com.company.neophite.model.entity.User" %>
+<%@ page import="lab2_5.com.company.neophite.model.entity.Ticket" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Stami

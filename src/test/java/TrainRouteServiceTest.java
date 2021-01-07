@@ -1,14 +1,10 @@
-import lab3.com.company.neophite.model.dao.DAOFactory;
-import lab3.com.company.neophite.model.dao.TrainTripDAO;
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
-import lab3.com.company.neophite.model.dao.impl.DAOFactoryImpl;
-import lab3.com.company.neophite.model.dao.impl.StationDAOImpl;
-import lab3.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
-import lab3.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
-import lab3.com.company.neophite.model.entity.*;
-import lab3.com.company.neophite.model.exception.TrainRouteNotFoundException;
-import lab3.com.company.neophite.model.service.StationService;
-import lab3.com.company.neophite.model.service.TrainRouteService;
+import lab2_5.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab2_5.com.company.neophite.model.dao.impl.DAOFactoryImpl;
+import lab2_5.com.company.neophite.model.dao.impl.TrainRouteDAOImpl;
+import lab2_5.com.company.neophite.model.dao.impl.TrainTripDAOImpl;
+import lab2_5.com.company.neophite.model.entity.*;
+import lab2_5.com.company.neophite.model.exception.TrainRouteNotFoundException;
+import lab2_5.com.company.neophite.model.service.TrainRouteService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,7 +75,6 @@ public class TrainRouteServiceTest {
     @Test
     public void deleteTrainRouteById() throws SQLException {
         long idRoute = 1 ;
-        User user = new User(1, "test", "test123");
 
         Station station = new Station(1, "Konotop");
         Station station1 = new Station(2, "Kiev");

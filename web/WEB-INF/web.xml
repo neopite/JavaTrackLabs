@@ -5,7 +5,7 @@
          version="4.0">
     <servlet>
         <servlet-name>Servlet</servlet-name>
-        <servlet-class>lab3.com.company.neophite.controller.Servlet</servlet-class>
+        <servlet-class>lab2_5.com.company.neophite.controller.Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -16,7 +16,7 @@
     </welcome-file-list>
     <filter>
         <filter-name>AdminFilter</filter-name>
-        <filter-class>lab3.com.company.neophite.controller.filter.AdminFilter</filter-class>
+        <filter-class>lab2_5.com.company.neophite.controller.filter.AdminFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -26,7 +26,7 @@
 
     <filter>
         <filter-name>UserFilter</filter-name>
-        <filter-class>lab3.com.company.neophite.controller.filter.UserFilter</filter-class>
+        <filter-class>lab2_5.com.company.neophite.controller.filter.UserFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -1,11 +1,9 @@
-import lab3.com.company.neophite.model.dao.TicketDAO;
-import lab3.com.company.neophite.model.dao.connection.BasicConnectionPool;
-import lab3.com.company.neophite.model.dao.impl.*;
-import lab3.com.company.neophite.model.entity.*;
-import lab3.com.company.neophite.model.exception.NoFreeSeatException;
-import lab3.com.company.neophite.model.exception.NotMuchMoneyException;
-import lab3.com.company.neophite.model.service.TicketService;
-import lab3.com.company.neophite.model.service.UserService;
+import lab2_5.com.company.neophite.model.dao.connection.BasicConnectionPool;
+import lab2_5.com.company.neophite.model.dao.impl.*;
+import lab2_5.com.company.neophite.model.entity.*;
+import lab2_5.com.company.neophite.model.exception.NoFreeSeatException;
+import lab2_5.com.company.neophite.model.exception.NotMuchMoneyException;
+import lab2_5.com.company.neophite.model.service.TicketService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,34 +96,42 @@ public class TicketServiceTest {
 
     @Test(expected = NotMuchMoneyException.class)
     public void createTicket_Should_throw_NotMuchMoneyException() throws SQLException {
+        float usersMoney = 60;
+        float ticketPrice = 234;
         when(mockDaoFactory.createUserDAO(mockTransactionalConnection)).thenReturn(mockUserDao);
         when(mockDaoFactory.createTrainTripDAO(mockTransactionalConnection)).thenReturn(mockTrainTripDao);
         when(mockDaoFactory.createTicketDAO(mockTransactionalConnection)).thenReturn(mockTicketDao);
-        when(mockTicket.getTrainTripId().getPrice()).thenReturn((float) 80);
-        when(mockTicket.getUserId().getMoney()).thenReturn((float) 60);
+        when(mockTicket.getTrainTripId().getPrice()).thenReturn(ticketPrice);
+        when(mockTicket.getUserId().getMoney()).thenReturn(usersMoney);
         ticketService.createTicket(mockTicket);
         verify(mockTransactionalConnection).rollback();
     }
     @Test(expected = NoFreeSeatException.class)
     public void createTicket_Should_throw_NoFreeSeatException() throws SQLException {
+        float usersMoney = 32;
+        float ticketPrice = 5;
+        int availableSeats = 0;
         when(mockDaoFactory.createUserDAO(mockTransactionalConnection)).thenReturn(mockUserDao);
         when(mockDaoFactory.createTrainTripDAO(mockTransactionalConnection)).thenReturn(mockTrainTripDao);
         when(mockDaoFactory.createTicketDAO(mockTransactionalConnection)).thenReturn(mockTicketDao);
-        when(mockTicket.getTrainTripId().getPrice()).thenReturn((float) 50);
-        when(mockTicket.getUserId().getMoney()).thenReturn((float) 60);
-        when(mockTicket.getTrainTripId().getAvailableSeats()).thenReturn(0);
+        when(mockTicket.getTrainTripId().getPrice()).thenReturn(ticketPrice);
+        when(mockTicket.getUserId().getMoney()).thenReturn(usersMoney);
+        when(mockTicket.getTrainTripId().getAvailableSeats()).thenReturn(availableSeats);
         ticketService.createTicket(mockTicket);
         verify(mockTransactionalConnection).rollback();
     }
 
     @Test
     public void createTicket_Should_Create_Ticket() throws SQLException {
+        float usersMoney = 32;
+        float ticketPrice = 5;
+        int availableSeats = 10;
         when(mockDaoFactory.createUserDAO(mockTransactionalConnection)).thenReturn(mockUserDao);
         when(mockDaoFactory.createTrainTripDAO(mockTransactionalConnection)).thenReturn(mockTrainTripDao);
         when(mockDaoFactory.createTicketDAO(mockTransactionalConnection)).thenReturn(mockTicketDao);
-        when(mockTicket.getTrainTripId().getPrice()).thenReturn((float) 50);
-        when(mockTicket.getUserId().getMoney()).thenReturn((float) 60);
-        when(mockTicket.getTrainTripId().getAvailableSeats()).thenReturn(5);
+        when(mockTicket.getTrainTripId().getPrice()).thenReturn(ticketPrice);
+        when(mockTicket.getUserId().getMoney()).thenReturn(usersMoney);
+        when(mockTicket.getTrainTripId().getAvailableSeats()).thenReturn(availableSeats);
         ticketService.createTicket(mockTicket);
         verify(mockTransactionalConnection).commit();
         verify(mockTicketDao).create(mockTicket);
